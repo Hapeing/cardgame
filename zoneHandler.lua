@@ -29,7 +29,15 @@ function ZoneHandler:new(o)
     o.Zone_Hands[1]:addCard(crep2)
     o.Zone_Hands[1]:addCard(crep3)
 
-    o:changeZone(o.Zone_Hands[1], o.Zone_Field)
+    
+
+    -- o.Zone_Hands[1]:addButton({x=175, y=750, hight=50, width=50, released = function(self, game)
+    --         game.ZoneHandler:changeZone(o.Zone_Hands[1], o.Zone_Field)
+    --         -- o:changeZone(o.Zone_Hands[1], o.Zone_Field)
+    --         self.r = 1
+    --         self.g = 1
+    --         self.b = 1
+    --     end})
 
     return o
 end

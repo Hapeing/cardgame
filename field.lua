@@ -10,8 +10,10 @@ function Field:new(o)
 
 
     --temp code
-    o:addButton(0, 64*2, 64, 64)
-    o:addButton(64, 64*3, 64, 64)
+    
+
+    o:addButton({x=0, y=64*2, hight=64, width=64})
+    o:addButton({x=64, y=64*3, hight=64, width=64})
 
     return o
 end

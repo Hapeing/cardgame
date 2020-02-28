@@ -36,7 +36,7 @@ function Zone:removeCard(i)--returns card
 
 end
 
-function Zone:update(game, dt)
+function Zone:update(game, dt)--bug: press and hold one button, move to another button on another zone, and release. it triggers the second button
 
     if (love.mouse.isDown(1) and self.I_btnPressed == 0) then
         
@@ -66,7 +66,7 @@ function Zone:update(game, dt)
                 
                 
             print("Release: " .. self.I_btnPressed)
-            self.Buttons[self.I_btnPressed]:released()
+            self.Buttons[self.I_btnPressed]:released(game.ZoneHandler)
         end
         self.I_btnPressed = 0
 
@@ -77,14 +77,9 @@ function Zone:update(game, dt)
 
 end
 
-function Zone:addButton(x, y, width, hight)
+function Zone:addButton(o)
 
     local o = Button:new(o)
-
-    o.x = x
-    o.y = y
-    o.width = width
-    o.hight = hight
 
     table.insert(self.Buttons, o)
 
