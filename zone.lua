@@ -1,5 +1,6 @@
 require "creature"
 require "boost"
+require "Menu/button"
 
 Zone = {}
 
@@ -10,6 +11,10 @@ function Zone:new(o)
 
     o.Cards = {}
 
+    o.Buttons = {}
+
+    o.I_btnPressed = 0 --index of the pressed button
+    
 
     return o
 end
@@ -33,8 +38,68 @@ end
 
 function Zone:update(game, dt)
 
+    if (love.mouse.isDown(1) and self.I_btnPressed == 0) then
+        
+        for i, btn in ipairs(self.Buttons) do 
+            if (btn.x < love.mouse.getX() and
+                btn.y < love.mouse.getY() and
+                btn.x + btn.width > love.mouse.getX() and
+                btn.y + btn.hight > love.mouse.getY()) then --if mouse is pressed on a button then
+
+                    
+                self.I_btnPressed = i
+                print("Pressed: " .. self.I_btnPressed)
+                btn:pressed(dt)
+                
+                
+            end
+        end
+
+        --Game.mousePressed = true
+
+    elseif (not love.mouse.isDown(1) and self.I_btnPressed ~= 0) then --if mouse is released and earlier pressed a button then
+        
+        if (self.Buttons[self.I_btnPressed].x < love.mouse.getX() and
+        self.Buttons[self.I_btnPressed].y < love.mouse.getY() and
+        self.Buttons[self.I_btnPressed].x + self.Buttons[self.I_btnPressed].width > love.mouse.getX() and
+        self.Buttons[self.I_btnPressed].y + self.Buttons[self.I_btnPressed].hight > love.mouse.getY()) then --if the mouse is still on the pressed button then
+                
+                
+            print("Release: " .. self.I_btnPressed)
+            self.Buttons[self.I_btnPressed]:released()
+        end
+        self.I_btnPressed = 0
+
+    --elseif (self.I_btnPressed == 0) then
+
+        --Game.mousePressed = false
+    end
+
+end
+
+function Zone:addButton(x, y, width, hight)
+
+    local o = Button:new(o)
+
+    o.x = x
+    o.y = y
+    o.width = width
+    o.hight = hight
+
+    table.insert(self.Buttons, o)
+
+end
+
+function Zone:drawButtons()
+    
+    for i, btn in ipairs(self.Buttons) do 
+        btn:draw()
+    end
+
 end
 
 function Zone:draw()
+
+    self:drawButtons()
 
 end

@@ -9,19 +9,24 @@ function Menu:new(o)
     
     o.Buttons = {}
 
+    o.mousePressed = false
+
     I_btnPressed = 0 --index of the pressed button
 
-    o:addButton(0, 0, 64, 64)
-    o:addButton(64, 64, 64, 64)
+    --o:addButton(0, 0, 64, 64)
+    --o:addButton(64, 64, 64, 64)
 
     return o
 end
 
 function Menu:update(Game, dt)
 
-    if (love.mouse.isDown(1) and not (Game.mousePressed)) then
+    if (love.mouse.isDown(1) and not (self.mousePressed)) then
         
+        
+
         for i, btn in ipairs(self.Buttons) do 
+            print(self.Buttons[1].x)
             if (btn.x < love.mouse.getX() and
                 btn.y < love.mouse.getY() and
                 btn.x + btn.width > love.mouse.getX() and
@@ -36,9 +41,9 @@ function Menu:update(Game, dt)
             end
         end
 
-        Game.mousePressed = true
+        self.mousePressed = true
 
-    elseif ((Game.mousePressed) and not love.mouse.isDown(1) ) then
+    elseif ((self.mousePressed) and not love.mouse.isDown(1) ) then
 
         if (I_btnPressed ~= 0) then --if mouse is released and earlier pressed a button then
             if (self.Buttons[I_btnPressed].x < love.mouse.getX() and
@@ -52,7 +57,7 @@ function Menu:update(Game, dt)
             end
             I_btnPressed = 0
         end
-        Game.mousePressed = false
+        self.mousePressed = false
     end
 
 end

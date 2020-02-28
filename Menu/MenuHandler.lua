@@ -8,8 +8,6 @@ function MenuHandler:new(o)
     self.__index = self
 
     o.Menus = {}
-    
-    --o:addMenu()
 
     return o
 end
@@ -23,12 +21,14 @@ end
 
 function MenuHandler:update(Game, dt)
 
-    self.Menus[1]:update(Game, dt)--only updates one menu
+    self.Menus[1]:update(Game, dt)
+    self.Menus[2]:update(Game, dt)
 
 end
 
 function MenuHandler:draw()
 
-    self.Menus[1]:draw()--only draws one menu
+    self.Menus[1]:draw()
+    self.Menus[2]:draw()
 
 end

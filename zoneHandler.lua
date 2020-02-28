@@ -12,7 +12,6 @@ function ZoneHandler:new(o)
     self.__index = self
 
 
-    --does not daw all yet
     o.Zone_Cycles = Cycle:new()
     o.Zone_Graves = Grave:new()
     o.Zone_Decks = Deck:new()
@@ -47,10 +46,10 @@ end
 
 function ZoneHandler:update(game, dt)
 
-    self.Zone_Graves:update(game, dt)
-    self.Zone_Decks:update(game, dt)
     self.Zone_Field:update(game, dt)
+    self.Zone_Graves:update(game, dt)
     self.Zone_Hands[1]:update(game, dt)
+    self.Zone_Decks:update(game, dt)
     self.Zone_Cycles:update(game, dt)
 
 end
@@ -60,6 +59,8 @@ function ZoneHandler:draw()
     self.Zone_Field:draw()
     self.Zone_Decks:draw()
     self.Zone_Hands[1]:draw()
+    self.Zone_Cycles:draw()
+    self.Zone_Graves:draw()
 
 end
 
