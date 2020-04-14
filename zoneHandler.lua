@@ -24,10 +24,17 @@ function ZoneHandler:new(o)
     crep1 = Creature:new({power = 1, cost = 1})
     crep2 = Creature:new({power = 2, cost = 2})
     crep3 = Boost:new({power = 3, cost = 3})
+    crep4 = Boost:new({power = 4, cost = 4})
+    crep5 = Boost:new({power = 5, cost = 5})
 
     o.Zone_Hands[1]:addCard(crep1)
     o.Zone_Hands[1]:addCard(crep2)
     o.Zone_Hands[1]:addCard(crep3)
+    o.Zone_Hands[1]:addCard(crep4)
+    o.Zone_Hands[1]:addCard(crep5)
+
+    o.Zone_Decks:addCard(Boost:new({power = 6, cost = 6}))
+
 
     
 
@@ -42,9 +49,9 @@ function ZoneHandler:new(o)
     return o
 end
 
-function ZoneHandler:changeZone(zoneFrom, zoneTo)
+function ZoneHandler:changeZone(zoneFrom, zoneTo, cardIndex)
     
-    zoneTo:addCard(zoneFrom:removeCard())
+    zoneTo:addCard(zoneFrom:removeCard(cardIndex))
 
 end
 

@@ -20,6 +20,7 @@ function Hand:new(o)
 
     o.cardSpace = 50
 
+
     --test code
     --o:addButton({x=0, y=0, hight=64, width=64})
     --o:addButton({x=64, y=64, hight=64, width=64})
@@ -27,25 +28,27 @@ function Hand:new(o)
     return o
 end
 
-function Hand:addCard(card, i)--return true/false
+function Hand:addCard(card, i)--shuld return true/false
 
     table.insert(self.Cards, card)
 
     self.nrOfCards = self.nrOfCards + 1
 
-    self:addButton{
+    self:addButton({
         x = self.firstCardX + (self.cardSpace + self.cardW) * self.nrOfCards - self.cardSelectFrame, 
-        y = self.cardsY - self.cardSelectFrame, 
+        y = self.cardsY - self.cardSelectFrame,
         width = self.cardW + self.cardSelectFrame * 2, 
         hight = self.cardH + self.cardSelectFrame * 2,
         r = 0, g = 0.5, b = 0,
-        card_I = self.nrOfCards,
+        index = self.nrOfCards,
         pressed = function(self) self.g = 1 end,
         released = function(self, zHandler) 
-            zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Field)
+            zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Field, self.index)
+            --self.x = self.x - zHandler.Zone_Hands[1].cardSpace - zHandler.Zone_Hands[1].cardW
+            print("Button index: " .. self.index)
             self.g = 0.5 
             
-        end}
+        end})
 
 
     return true
@@ -57,14 +60,12 @@ function Hand:removeCard(i)--returns card
 
     self.nrOfCards = self.nrOfCards - 1
 
-
     table.remove(self.Buttons, i)
 
-    -- for j, btn in ipairs(self.Buttons) do 
-
-    --     btn.x =  self.firstCardX + (self.cardSpace + self.cardW) * self.nrOfCards - self.cardSelectFrame
-
-    -- end
+    for i, btn in ipairs(self.Buttons) do --correcting the index of the buttons
+        btn.index = i
+        btn.x = self.firstCardX + (self.cardSpace + self.cardW) * i - self.cardSelectFrame
+    end
 
     return table.remove(self.Cards, i)
 

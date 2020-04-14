@@ -65,7 +65,7 @@ function Zone:update(game, dt)--bug: press and hold one button, move to another 
         self.Buttons[self.I_btnPressed].y + self.Buttons[self.I_btnPressed].hight > love.mouse.getY()) then --if the mouse is still on the pressed button then
                 
                 
-            print("Release: " .. self.I_btnPressed)
+            --print("Release: " .. self.I_btnPressed)
             self.Buttons[self.I_btnPressed]:released(game.ZoneHandler)
         end
         self.I_btnPressed = 0
