@@ -14,7 +14,8 @@ function ZoneHandler:new(o)
 
     o.Zone_Cycles = Cycle:new()
     o.Zone_Graves = Grave:new()
-    o.Zone_Decks = Deck:new()
+    o.Zone_Decks = {}
+    o.Zone_Decks[1] = Deck:new()
     o.Zone_Field = Field:new()
     o.Zone_Hands = {}    
     o.Zone_Hands[1] = Hand:new()
@@ -27,13 +28,13 @@ function ZoneHandler:new(o)
     crep4 = Boost:new({power = 4, cost = 4})
     crep5 = Boost:new({power = 5, cost = 5})
 
-    o.Zone_Hands[1]:addCard(crep1)
-    o.Zone_Hands[1]:addCard(crep2)
-    o.Zone_Hands[1]:addCard(crep3)
-    o.Zone_Hands[1]:addCard(crep4)
-    o.Zone_Hands[1]:addCard(crep5)
+    o.Zone_Decks[1]:addCard(crep1)
+    o.Zone_Decks[1]:addCard(crep2)
+    o.Zone_Decks[1]:addCard(crep3)
+    o.Zone_Decks[1]:addCard(crep4)
+    o.Zone_Decks[1]:addCard(crep5)
 
-    o.Zone_Decks:addCard(Boost:new({power = 6, cost = 6}))
+    --o.Zone_Decks[1]:addCard(Boost:new({power = 6, cost = 6}))
 
 
     
@@ -64,7 +65,7 @@ function ZoneHandler:update(game, dt)
     self.Zone_Field:update(game, dt)
     self.Zone_Graves:update(game, dt)
     self.Zone_Hands[1]:update(game, dt)
-    self.Zone_Decks:update(game, dt)
+    self.Zone_Decks[1]:update(game, dt)
     self.Zone_Cycles:update(game, dt)
 
 end
@@ -72,7 +73,7 @@ end
 function ZoneHandler:draw()
 
     self.Zone_Field:draw()
-    self.Zone_Decks:draw()
+    self.Zone_Decks[1]:draw()
     self.Zone_Hands[1]:draw()
     self.Zone_Cycles:draw()
     self.Zone_Graves:draw()

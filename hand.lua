@@ -44,11 +44,11 @@ function Hand:addCard(card, i)--shuld return true/false
         pressed = function(self) self.g = 1 end,
         released = function(self, zHandler) 
             zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Field, self.index)
-            --self.x = self.x - zHandler.Zone_Hands[1].cardSpace - zHandler.Zone_Hands[1].cardW
             print("Button index: " .. self.index)
             self.g = 0.5 
             
-        end})
+        end
+    })
 
 
     return true
@@ -62,7 +62,7 @@ function Hand:removeCard(i)--returns card
 
     table.remove(self.Buttons, i)
 
-    for i, btn in ipairs(self.Buttons) do --correcting the index of the buttons
+    for i, btn in ipairs(self.Buttons) do --correcting the index and pos of the buttons
         btn.index = i
         btn.x = self.firstCardX + (self.cardSpace + self.cardW) * i - self.cardSelectFrame
     end

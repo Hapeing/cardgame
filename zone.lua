@@ -12,7 +12,7 @@ function Zone:new(o)
     o.Cards = {}
 
     o.Buttons = {}
-
+    o.nrOfCards = 0
     o.I_btnPressed = 0 --index of the pressed button
     
 
@@ -23,6 +23,8 @@ function Zone:addCard(card, i)--return true/false
     
     local i = i or 1--will be able to choose position in array
 
+    self.nrOfCards = self.nrOfCards + 1
+
     table.insert(self.Cards, card)
 
     return true
@@ -31,6 +33,9 @@ end
 function Zone:removeCard(i)--returns card
 
     local i = i or 1
+
+    self.nrOfCards = self.nrOfCards - 1
+
 
     return table.remove(self.Cards, i)
 
