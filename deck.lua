@@ -10,8 +10,8 @@ function Deck:new()
 
     o.x = 1400
     o.y = 600
-    o.width = 100
-    o.hight = o.width * 1.5
+    o.width = 50 * 2.5
+    o.hight = 50 * 3.5
     o.color = {r = 0.54, g = 0.27, b = 0.07}--brown
 
 

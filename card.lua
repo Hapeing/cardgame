@@ -16,8 +16,10 @@ end
 
 function Card:draw(x, y, w, h)
 
+    h = h or w * 3.5
+
     lg.setColor(0, 0, 1)
-    lg.rectangle("fill", x, y, w, h)
+    lg.rectangle("fill", x, y, w * 2,5, h)
     lg.setColor(1, 1, 1)
-    lg.print(self.cost, x, y)
+    --lg.print(self.cost, x, y)
 end

@@ -14,8 +14,10 @@ end
 
 function Boost:draw(x, y, w, h)
 
+    h = h or w * 3.5
+
     lg.setColor(255, 255, 0)
-    lg.rectangle("fill", x, y, w, h)
+    lg.rectangle("fill", x, y, w * 2.5, h)
 
     lg.setColor(0, 0, 0)
     --lg.setColor(255, 255, 255)

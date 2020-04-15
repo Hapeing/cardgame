@@ -13,6 +13,17 @@ function Button:new(o)
     o.r = o.r or 1
     o.b = o.b or 1
     o.g = o.g or 1
+
+    if (o.visable == nil) then
+        o.visable = true
+    end
+    if (o.active == nil) then
+        o.active = true
+    end
+    
+    
+    
+
     
     return o
 end
@@ -31,13 +42,14 @@ end
 
 function Button:draw(size)
 
-    size = size or 1
-    --one color when inactive
-    --one color when hover
-    --one color when hover and mouse pressed
-    --inactive when not hover and mouse pressed
+    if (self.visable) then
+        size = size or 1
+        --one color when inactive
+        --one color when hover
+        --one color when hover and mouse pressed
+        --inactive when not hover and mouse pressed
 
-    lg.setColor(self.r, self.g, self.b)
-    lg.rectangle("fill", self.x, self.y, self.width * size, self.hight * size)
-
+        lg.setColor(self.r, self.g, self.b)
+        lg.rectangle("fill", self.x, self.y, self.width * size, self.hight * size)
+    end
 end

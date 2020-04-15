@@ -24,6 +24,7 @@ function Zone:addCard(card, i)--return true/false
     if (card == nil) then
         print("ERROR: Cannot add card to zone")
         return false
+    
     end
     
     local i = i or 1--will be able to choose position in array
@@ -54,7 +55,8 @@ function Zone:update(game, dt)--bug: press and hold one button, move to another 
             if (btn.x < love.mouse.getX() and
                 btn.y < love.mouse.getY() and
                 btn.x + btn.width > love.mouse.getX() and
-                btn.y + btn.hight > love.mouse.getY()) then --if mouse is pressed on a button then
+                btn.y + btn.hight > love.mouse.getY() and
+                btn.active) then --if mouse is pressed on a button then
 
                     
                 self.I_btnPressed = i

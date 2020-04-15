@@ -9,17 +9,15 @@ function Field:new(o)
     self.__index = self
 
 
-    --nr or cards per channel
-    o.nrOfCards = {0,0,0,0,0,0,0}
+    o.nrOfChannels = o.nrOfChannels or 5
+    o.nrOfCards = {}--nr or cards per channel
 
-    --each array is its own channel from left to right
-    o.Cards[1] = {}
-    o.Cards[2] = {}
-    o.Cards[3] = {}
-    o.Cards[4] = {}
-    o.Cards[5] = {}
-    o.Cards[6] = {}
-    o.Cards[7] = {}
+
+
+    for i = 1, o.nrOfChannels do
+        o.nrOfCards[i] = 0
+        o.Cards[i] = {}--each array is its own channel from left to right
+    end
 
 
     --test code
@@ -36,10 +34,8 @@ function Field:addCard(card, channel, row)
         return false
     end
 
-    local row = row or 1
-
     self.nrOfCards[channel] = self.nrOfCards[channel] + 1
-
+    local row = row or self.nrOfCards[channel]
 
     self.Cards[channel][row] = card
 
@@ -50,10 +46,10 @@ end
 function Field:draw()
 
 
-    for i, channel in ipairs(self.Cards) do 
-        for i, card in ipairs(channel) do 
+    for i, row in ipairs(self.Cards) do 
+        for j, card in ipairs(row) do 
             
-            card:draw(150 * i, 100, 100, 150)
+            card:draw(150 * i, 700 - 100 * j, 20)
             
         end
     end

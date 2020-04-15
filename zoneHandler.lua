@@ -22,31 +22,12 @@ function ZoneHandler:new(o)
     o.Zone_Hands[1] = Hand:new()
 
 
-    --temp code
-    crep1 = Creature:new({power = 1, cost = 1})
-    crep2 = Creature:new({power = 2, cost = 2})
-    crep3 = Boost:new({power = 3, cost = 3})
-    crep4 = Boost:new({power = 4, cost = 4})
-    crep5 = Boost:new({power = 5, cost = 5})
+    --test code
 
-    o.Zone_Decks[1]:addCard(crep1)
-    o.Zone_Decks[1]:addCard(crep2)
-    o.Zone_Decks[1]:addCard(crep3)
-    o.Zone_Decks[1]:addCard(crep4)
-    o.Zone_Decks[1]:addCard(crep5)
-
-    --o.Zone_Decks[1]:addCard(Boost:new({power = 6, cost = 6}))
-
-
-    
-
-    -- o.Zone_Hands[1]:addButton({x=175, y=750, hight=50, width=50, released = function(self, game)
-    --         game.ZoneHandler:changeZone(o.Zone_Hands[1], o.Zone_Field)
-    --         -- o:changeZone(o.Zone_Hands[1], o.Zone_Field)
-    --         self.r = 1
-    --         self.g = 1
-    --         self.b = 1
-    --     end})
+    --fill the deck with temp creatures
+    for i = 1, 30 do
+        o.Zone_Decks[1]:addCard(Creature:new({power = i, cost = i}))
+    end
 
     return o
 end

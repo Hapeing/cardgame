@@ -2,9 +2,9 @@ require "game"
 
 function love.load()
 
-    screen = {}
-    screen.x = 1600
-    screen.y = 1000
+    --screen = {}
+    --screen.x = 1600
+    --screen.y = 1000
 
     --love.window.setMode(screen.x, screen.y)
 
@@ -12,6 +12,9 @@ function love.load()
     lm = love.mouse
 
     love.window.setFullscreen(true, "desktop")
+
+    width, height, flags = love.window.getMode()
+    print(width .." ".. height)
 
     Game = Game:new()
 
