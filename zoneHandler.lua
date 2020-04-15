@@ -16,7 +16,8 @@ function ZoneHandler:new(o)
     o.Zone_Graves = Grave:new()
     o.Zone_Decks = {}
     o.Zone_Decks[1] = Deck:new()
-    o.Zone_Field = Field:new()
+    o.Zone_Fields = {}
+    o.Zone_Fields[1] = Field:new()
     o.Zone_Hands = {}    
     o.Zone_Hands[1] = Hand:new()
 
@@ -50,9 +51,9 @@ function ZoneHandler:new(o)
     return o
 end
 
-function ZoneHandler:changeZone(zoneFrom, zoneTo, cardIndex)
+function ZoneHandler:changeZone(zoneFrom, zoneTo, removeIndex, addIndex)
     
-    zoneTo:addCard(zoneFrom:removeCard(cardIndex))
+    zoneTo:addCard(zoneFrom:removeCard(removeIndex), addIndex)
 
 end
 
@@ -62,7 +63,7 @@ end
 
 function ZoneHandler:update(game, dt)
 
-    self.Zone_Field:update(game, dt)
+    self.Zone_Fields[1]:update(game, dt)
     self.Zone_Graves:update(game, dt)
     self.Zone_Hands[1]:update(game, dt)
     self.Zone_Decks[1]:update(game, dt)
@@ -72,7 +73,7 @@ end
 
 function ZoneHandler:draw()
 
-    self.Zone_Field:draw()
+    self.Zone_Fields[1]:draw()
     self.Zone_Decks[1]:draw()
     self.Zone_Hands[1]:draw()
     self.Zone_Cycles:draw()

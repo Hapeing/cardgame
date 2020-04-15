@@ -21,6 +21,11 @@ end
 
 function Zone:addCard(card, i)--return true/false
     
+    if (card == nil) then
+        print("ERROR: Cannot add card to zone")
+        return false
+    end
+    
     local i = i or 1--will be able to choose position in array
 
     self.nrOfCards = self.nrOfCards + 1
@@ -90,10 +95,10 @@ function Zone:addButton(o)
 
 end
 
-function Zone:drawButtons()
+function Zone:drawButtons(size)
     
     for i, btn in ipairs(self.Buttons) do 
-        btn:draw()
+        btn:draw(size)
     end
 
 end

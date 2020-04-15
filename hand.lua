@@ -43,7 +43,7 @@ function Hand:addCard(card, i)--shuld return true/false
         index = self.nrOfCards,
         pressed = function(self) self.g = 1 end,
         released = function(self, zHandler) 
-            zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Field, self.index)
+            zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Fields[1], self.index, 1)
             print("Button index: " .. self.index)
             self.g = 0.5 
             
