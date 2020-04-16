@@ -21,9 +21,10 @@ function Hand:new(o)
     o.cardSpace = 50
 
 
-    
+    --o.nrOfReservedButtons = o.nrOfReservedButtons or 5+2 --nrOfChannels +2
 
     --test code
+    o.selectedChannel = 1
     --o:addButton({x=0, y=0, hight=64, width=64})
     --o:addButton({x=64, y=64, hight=64, width=64})
 
@@ -45,7 +46,7 @@ function Hand:addCard(card, i)--should return true/false
         I = self.nrOfCards,
         pressed = function(self) self.g = 1 end,
         released = function(self, zHandler) 
-            zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Fields[1], self.I, 1)--the 1 will be replaced by channel
+            zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Fields[1], self.I, zHandler.Zone_Hands[1].selectedChannel)--the 1 will be replaced by channel
             print("Button index: " .. self.I)
             self.g = 0.5 
             
@@ -82,6 +83,9 @@ function Hand:draw()
         card:draw(self.firstCardX + (self.cardSpace + self.cardW) * i, self.cardsY, self.cardW/2.5, self.cardH)
 
     end
+    
+    lg.setColor(1, 1, 1)
+    lg.print("Select channel before clicking the card.\nCurrent selection: Channel " .. self.selectedChannel, W_WIDTH/2, W_HEIGHT-(W_HEIGHT*0.1), 0, 3)
 
 
 end

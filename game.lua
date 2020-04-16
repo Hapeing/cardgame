@@ -16,6 +16,9 @@ function Game:new(o)
     --o.MenuHandler.Menus[1]:addButton(500, 500, 100, 100)
     --o.MenuHandler.Menus[2]:addButton(600, 600, 100, 100)
 
+    
+
+
     o.ZoneHandler = ZoneHandler:new()
 
     o.mousePressed = false
