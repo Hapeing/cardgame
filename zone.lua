@@ -97,10 +97,10 @@ function Zone:addButton(o)
 
 end
 
-function Zone:drawButtons(size)
+function Zone:drawButtons(scale)
     
     for i, btn in ipairs(self.Buttons) do 
-        btn:draw(size)
+        btn:draw(scale)
     end
 
 end

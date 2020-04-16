@@ -9,20 +9,36 @@ function Field:new(o)
     self.__index = self
 
 
+
+    o.nrOfRows = o.nrOfRows or 5
     o.nrOfChannels = o.nrOfChannels or 5
     o.nrOfCards = {}--nr or cards per channel
-
-
+    --o.Buttons = {}
 
     for i = 1, o.nrOfChannels do
         o.nrOfCards[i] = 0
         o.Cards[i] = {}--each array is its own channel from left to right
+        for j = 1, o.nrOfRows do
+            o:addButton({
+                x = 150 * i,
+                y = 700 - 100 * j,
+                fieldChannel = i,
+                fieldRow = j,
+                active = false,
+                released = function(self)
+
+                    self.r = self.r_org
+                    self.g = self.g_org
+                    self.b = self.b_org
+                end
+            })
+        end
     end
 
 
     --test code
-    o:addButton({x=0, y=64*2, hight=64, width=64})
-    o:addButton({x=64, y=64*3, hight=64, width=64})
+    --o:addButton({x=0, y=64*2, hight=64, width=64})
+    --o:addButton({x=64, y=64*3, hight=64, width=64})
 
     return o
 end
@@ -39,12 +55,16 @@ function Field:addCard(card, channel, row)
 
     self.Cards[channel][row] = card
 
+    self.Buttons[channel * self.nrOfRows - (self.nrOfRows - row)].active = true
+
     return true
 
 end
 
+
 function Field:draw()
 
+    self:drawButtons()
 
     for i, row in ipairs(self.Cards) do 
         for j, card in ipairs(row) do 
@@ -54,6 +74,6 @@ function Field:draw()
         end
     end
 
-    self:drawButtons()
+    
 
 end

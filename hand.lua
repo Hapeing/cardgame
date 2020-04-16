@@ -21,6 +21,7 @@ function Hand:new(o)
     o.cardSpace = 50
 
 
+    --reserved buttons goes after all the others or thay have special tags as "summon" or "discard"
     --o.nrOfReservedButtons = o.nrOfReservedButtons or 5+2 --nrOfChannels +2
 
     --test code
