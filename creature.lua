@@ -26,6 +26,6 @@ function Creature:draw(x, y, w, h)
     lg.rectangle("fill", x, y, w * 2.5, h)
     lg.setColor(0, 0, 0)
     --lg.setColor(255, 255, 255)
-    lg.print("C:" .. self.cost .. "\n\nP:" .. self.power, x +10, y + 10, 0, 3)
+    lg.print("C:" .. self.cost .. "\n\nP:" .. self.power, x +10, y + 10, 0, 1)
 
 end
