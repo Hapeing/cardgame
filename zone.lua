@@ -22,7 +22,7 @@ end
 function Zone:addCard(card, i)--return true/false
     
     if (card == nil) then
-        print("ERROR: Cannot add card to zone")
+        print("-ERROR: Cannot add card to field: card = nil")
         return false
     
     end
@@ -60,7 +60,7 @@ function Zone:update(game, dt)--bug: press and hold one button, move to another 
 
                     
                 self.I_btnPressed = i
-                print("Pressed: " .. self.I_btnPressed)
+                --print("Pressed: " .. self.I_btnPressed)
                 btn:pressed(dt)
                 
                 

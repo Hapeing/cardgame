@@ -25,7 +25,7 @@ function Deck:new()
         released = function(self, zHandler) 
             if (zHandler.Zone_Decks[1].nrOfCards > 0)then
                 zHandler:changeZone(zHandler.Zone_Decks[1], zHandler.Zone_Hands[1])
-                print("Draw to hand")
+                --print("Draw to hand")
             else
                 print("No cards in deck")
             end

@@ -47,8 +47,8 @@ function Hand:addCard(card, i)--should return true/false
         I = self.nrOfCards,
         pressed = function(self) self.g = 1 end,
         released = function(self, zHandler) 
-            zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Fields[1], self.I, zHandler.Zone_Hands[1].selectedChannel)--the 1 will be replaced by channel
-            print("Button index: " .. self.I)
+            zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Fields[1], self.I, zHandler.Zone_Hands[1].selectedChannel)
+            --print("Button index: " .. self.I)
             self.g = 0.5 
             
         end

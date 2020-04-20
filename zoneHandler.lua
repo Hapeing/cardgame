@@ -28,6 +28,11 @@ function ZoneHandler:new(o)
     for i = 1, 30 do
         o.Zone_Decks[1]:addCard(Creature:new({power = i, cost = i}))
     end
+    
+    --draw 5 cards to hand
+    for i=1, 5 do
+        o.Zone_Decks[1].Buttons[1]:released(o)
+    end
 
     return o
 end
