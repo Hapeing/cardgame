@@ -30,15 +30,13 @@ function Field:new(o)
                     --print("button x y: " .. self.fieldChannel .. " " .. self.fieldRow)
                     --print("selected x y: " .. field.selectedSquare.x .. " " .. field.selectedSquare.y)
                     
-                    print("__start button:move()")
+                    --print("__start button:move()")
                     -- print("self.channel: ")
                     -- print(self.fieldChannel)
-                    print("selectedSqare x & y:")
-                    print(field.selectedSquare.x)
-                    print(field.selectedSquare.y)
+                    --print("selectedSqare x & y:")
+                    --print(field.selectedSquare.x)
+                    --print(field.selectedSquare.y)
                     
-                    --bug:cannot move a card beyond 3 unless swapped
-                    --bug:cards swap places if one card is moved into another
 
                     field:addCard(field:removeCard(field.selectedSquare.x, field.selectedSquare.y),self.fieldChannel, self.fieldRow)
                     
@@ -61,7 +59,7 @@ function Field:new(o)
                     field.selectedSquare.x = nil
                     field.selectedSquare.y = nil
                     
-                    print("__end button:move()")
+                    --print("__end button:move()")
                 end,
                 released = function(self, zHandler)
                     local field = zHandler.Zone_Fields[1]
