@@ -194,9 +194,12 @@ function Field:removeCard(channel, row)--returns card
     -- print("__end Field:removeCard()")
 
     self.nrOfCards[channel] = self.nrOfCards[channel] - 1
+    
+    local card = self.Cards[channel][row]
 
+    self.Cards[channel][row] = nil
 
-    return table.remove(self.Cards[channel], row)
+    return card
 
 end
 
