@@ -9,10 +9,11 @@ function Field:new(o)
     self.__index = self
 
 
-    o.nrOfRows = o.nrOfRows or 5
+    o.nrOfRows = o.nrOfRows or 8
     o.nrOfChannels = o.nrOfChannels or  5
     o.nrOfCards = {}--nr or cards per channel
     o.selectedSquare = {x=nil, y=nil}
+    o.player = {x=3, y=1}
 
     for i = 1, o.nrOfChannels do
         o.nrOfCards[i] = 0
@@ -30,38 +31,40 @@ function Field:new(o)
                     --print("button x y: " .. self.fieldChannel .. " " .. self.fieldRow)
                     --print("selected x y: " .. field.selectedSquare.x .. " " .. field.selectedSquare.y)
                     
-                    print("__start button:move()")
+                    --print("__start button:move()")
                     -- print("self.channel: ")
                     -- print(self.fieldChannel)
-                    print("selectedSqare x & y:")
-                    print(field.selectedSquare.x)
-                    print(field.selectedSquare.y)
+                    --print("selectedSqare x & y:")
+                    --print(field.selectedSquare.x)
+                    --print(field.selectedSquare.y)
                     
-                    --bug:cannot move a card beyond 3 unless swapped
-                    --bug:cards swap places if one card is moved into another
 
-                    field:addCard(field:removeCard(field.selectedSquare.x, field.selectedSquare.y),self.fieldChannel, self.fieldRow)
+                    field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
+                    
                     
                     local toDeactivate = {
-                        field:getButtonIndex(field.selectedSquare.x,   field.selectedSquare.y),
-                        field:getButtonIndex(field.selectedSquare.x+1, field.selectedSquare.y),
-                        field:getButtonIndex(field.selectedSquare.x-1, field.selectedSquare.y),
-                        field:getButtonIndex(field.selectedSquare.x,   field.selectedSquare.y+1),
-                        field:getButtonIndex(field.selectedSquare.x,   field.selectedSquare.y-1)}
-
-                    --field.Buttons[field:getButtonIndex(field.selectedSquare.x, field.selectedSquare.y)].active = false
-                    --field.Buttons[field:getButtonIndex(field.selectedSquare.x, field.selectedSquare.y)].visable = false
-                    for i=1, 5 do
-                        if (toDeactivate[i] and toDeactivate[i] ~= field:getButtonIndex(self.fieldChannel, self.fieldRow)) then
-                            field.Buttons[toDeactivate[i]]:setUse("select", false, false, 
-                            {r=1,g=1,b=1}, {r=1,g=1,b=1})
+                        field:getButtonIndex(field.player.x,   field.player.y),
+                        field:getButtonIndex(field.player.x+1, field.player.y),
+                        field:getButtonIndex(field.player.x-1, field.player.y),
+                        field:getButtonIndex(field.player.x,   field.player.y+1),
+                        field:getButtonIndex(field.player.x,   field.player.y-1)}
+                        
+                        --field.Buttons[field:getButtonIndex(field.selectedSquare.x, field.selectedSquare.y)].active = false
+                        --field.Buttons[field:getButtonIndex(field.selectedSquare.x, field.selectedSquare.y)].visable = false
+                        for i=1, 5 do
+                            if (toDeactivate[i] and toDeactivate[i] ~= field:getButtonIndex(self.fieldChannel, self.fieldRow)) then
+                                field.Buttons[toDeactivate[i]]:setUse("select", false, false, 
+                                {r=1,g=1,b=1}, {r=1,g=1,b=1})
+                            end
                         end
-                    end
+                        
+                        field.player.x = self.fieldChannel
+                        field.player.y = self.fieldRow
                     
                     field.selectedSquare.x = nil
                     field.selectedSquare.y = nil
                     
-                    print("__end button:move()")
+                    --print("__end button:move()")
                 end,
                 released = function(self, zHandler)
                     local field = zHandler.Zone_Fields[1]
@@ -111,25 +114,7 @@ function Field:new(o)
                                 {r=1,g=1,b=1}, {r=1,g=1,b=1})
                             end
                         end
-                        -- field.Buttons[field:getButtonIndex(field.selectedSquare.x + 1, 
-                        --     field.selectedSquare.y)]:setUse("select", false, false, 
-                        --     {r=1,g=1,b=1}, {r=1,g=1,b=1})
 
-                        -- field.Buttons[field:getButtonIndex(field.selectedSquare.x - 1, 
-                        --     field.selectedSquare.y)]:setUse("select", false, false, 
-                        --     {r=1,g=1,b=1}, {r=1,g=1,b=1})
-
-                        -- field.Buttons[field:getButtonIndex(field.selectedSquare.x, 
-                        --     field.selectedSquare.y + 1)]:setUse("select", false, false, 
-                        --     {r=1,g=1,b=1}, {r=1,g=1,b=1})
-
-                        -- field.Buttons[field:getButtonIndex(field.selectedSquare.x, 
-                        --     field.selectedSquare.y - 1)]:setUse("select", false, false, 
-                        --     {r=1,g=1,b=1}, {r=1,g=1,b=1})
-
-                        -- field.Buttons[I+steps].active = false
-                        -- field.Buttons[I+steps].visable = false
-                        -- field.Buttons[I+steps].use = field.Buttons[I+1].select
 
                         field.selectedSquare.x = nil
                         field.selectedSquare.y = nil
@@ -150,29 +135,7 @@ function Field:new(o)
                             end
                         end
 
-                        -- field.Buttons[field:getButtonIndex(field.selectedSquare.x + 1, 
-                        --     field.selectedSquare.y)]:setUse("move", true, true, 
-                        --     {r=0.5,g=0,b=0}, {r=0.5,g=0,b=0})
 
-                        -- field.Buttons[field:getButtonIndex(field.selectedSquare.x - 1, 
-                        --     field.selectedSquare.y)]:setUse("move", true, true, 
-                        --     {r=0.5,g=0,b=0}, {r=0.5,g=0,b=0})
-
-                        -- field.Buttons[field:getButtonIndex(field.selectedSquare.x, 
-                        --     field.selectedSquare.y + 1)]:setUse("move", true, true, 
-                        --     {r=0.5,g=0,b=0}, {r=0.5,g=0,b=0})
-
-                        -- field.Buttons[field:getButtonIndex(field.selectedSquare.x, 
-                        --     field.selectedSquare.y) - 1]:setUse("move", true, true, 
-                        --     {r=0.5,g=0,b=0}, {r=0.5,g=0,b=0})
-
-
-                        -- field.Buttons[I+steps].active = true
-                        -- field.Buttons[I+steps].visable = true
-                        -- field.Buttons[I+steps].use = field.Buttons[I+1].move
-                        
-
-                        
 
                     
                     end
@@ -201,13 +164,13 @@ function Field:new(o)
                     self.b_org = rgb_org.b_org or self.b_org
 
 
-                    print("__end button:setUse()")
+                    --print("__end button:setUse()")
                 end
             })
         end
     end
 
-    --o:addCard(Creature:new(),4, 5)
+    o:addCard(Creature:new(),o.player.x, o.player.y)
 
 
     return o
