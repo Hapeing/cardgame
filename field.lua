@@ -9,7 +9,7 @@ function Field:new(o)
     self.__index = self
 
 
-    o.nrOfRows = o.nrOfRows or 8
+    o.nrOfRows = o.nrOfRows or 7
     o.nrOfChannels = o.nrOfChannels or  5
     o.nrOfCards = {}--nr or cards per channel
     o.selectedSquare = {x=nil, y=nil}
@@ -81,15 +81,19 @@ function Field:new(o)
 
                     local I = self.fieldChannel*field.nrOfRows-(field.nrOfRows-self.fieldRow)
 
-                    self:use(field, I)
+                    self:use(zHandler, I)
                     
                     self.r = self.r_org
                     self.g = self.g_org
                     self.b = self.b_org
                 end,
-                select = function(self, field, I)
-                    --bug:a button can stuck in use=move if the button a row below called select
+                select = function(self, zHandler, I)
                     
+
+
+                    --zHandler.Zone_Hands[1].target.x = self.fieldChannel
+                    --zHandler.Zone_Hands[1].target.y = self.fieldRow
+
                     --is self selected?
                     --yes -> deselect self
                     --no:
@@ -143,11 +147,14 @@ function Field:new(o)
                 
                     
                 end,
+                deselect = function(self)
+
+                end,
                 setUse = function(self, F_use, active, visable, rgb, rgb_org)
                    
 
-                    if (F_use == "move")then
-                        self.use = self.move
+                    if (F_use == "deselect")then
+                        self.use = self.deselect
                     elseif (F_use == "select") then
                         self.use = self.select
                     else
@@ -176,6 +183,25 @@ function Field:new(o)
 
 
     return o
+end
+
+function Field:enableButtons(button_arr, fieldUse)
+    for i, btn in pairs(button_arr) do
+        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].use = fieldUse
+
+        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].active = true
+        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].visable = true
+        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].choises = button_arr
+    end
+end
+
+function Field:disableButtons(button_arr)
+    for i, btn in pairs(button_arr) do
+        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].use = nil
+
+        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].active = false
+        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].visable = false
+    end
 end
 
 function Field:addCard(card, channel, row)

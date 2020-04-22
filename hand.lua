@@ -20,6 +20,8 @@ function Hand:new(o)
 
     o.cardSpace = 50
 
+    --o.target = {x=nil, y=nil}
+    o.selectedCard = 0
 
     --reserved buttons goes after all the others or thay have special tags as "summon" or "discard"
     --o.nrOfReservedButtons = o.nrOfReservedButtons or 5+2 --nrOfChannels +2
@@ -47,8 +49,25 @@ function Hand:addCard(card, i)--should return true/false
         I = self.nrOfCards,
         pressed = function(self) self.g = 1 end,
         released = function(self, zHandler) 
+            --is self selected?
+            --yes -> deselect self
+            --no:
+            --is anything selected?
+            --yes -> do nothing
+            --no:
+            --select self
+            hand = zHandler.Zone_Hands[1]
+            if (hand.selectedCard == self.I) then
+                hand.selectedCard = 0
+            elseif (hand.selectedCard ~= 0) then
+                print("Ability " .. hand.selectedCard .. " is active")
+            else
+                hand.selectedCard = self.I
+                zHandler.Zone_Hands[1].Cards[self.I]:activate()
+            end
+
+
             
-            zHandler.Zone_Hands[1].Cards[self.I]:activate()
             --zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Fields[1], self.I, zHandler.Zone_Hands[1].selectedChannel)
             --print("Button index: " .. self.I)
             self.g = 0.5 
