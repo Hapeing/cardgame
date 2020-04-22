@@ -97,7 +97,8 @@ function Field:new(o)
                     --yes -> do nothing
                     --no:
                     --select self
-                    
+                    --[[
+
                     local validMoves = {
                         field:getButtonIndex(self.fieldChannel+1, self.fieldRow),
                         field:getButtonIndex(self.fieldChannel-1, self.fieldRow),
@@ -110,7 +111,7 @@ function Field:new(o)
 
                         for i=1, 4 do
                             if (validMoves[i]) then
-                                field.Buttons[validMoves[i]]:setUse("select", false, false, 
+                                field.Buttons[validMoves[i] ]:setUse("select", false, false, 
                                 {r=1,g=1,b=1}, {r=1,g=1,b=1})
                             end
                         end
@@ -130,7 +131,7 @@ function Field:new(o)
 
                         for i=1, 4 do
                             if (validMoves[i]) then
-                                field.Buttons[validMoves[i]]:setUse("move", true, true, 
+                                field.Buttons[validMoves[i] ]:setUse("move", true, true, 
                                 {r=0.5,g=0,b=0}, {r=0.5,g=0,b=0})
                             end
                         end
@@ -138,7 +139,8 @@ function Field:new(o)
 
 
                     
-                    end
+                    end--]]
+                
                     
                 end,
                 setUse = function(self, F_use, active, visable, rgb, rgb_org)
@@ -199,8 +201,8 @@ function Field:addCard(card, channel, row)
 
     local I = self:getButtonIndex(channel, row)
 
-    self.Buttons[I].active = true
-    self.Buttons[I].visable = true
+    self.Buttons[I].active = false
+    self.Buttons[I].visable = false
     self.Buttons[I].use = self.Buttons[I].select
 
 
