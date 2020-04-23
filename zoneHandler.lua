@@ -29,9 +29,10 @@ function ZoneHandler:new(o)
     end
 
     --1st ability
-    o.Zone_Decks[1].Cards[1].name = "move"
+    o.Zone_Decks[1].Cards[1].name = "Move"
+    o.Zone_Decks[1].Cards[1].cooldown = 1
     o.Zone_Decks[1].Cards[1].choises = {{x=-1, y=0},{x=1, y=0},{x=0, y=-1},{x=0, y=1}}
-    o.Zone_Decks[1].Cards[1].activate = function(self)
+    o.Zone_Decks[1].Cards[1].execute = function(self)
         o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
     end
     o.Zone_Decks[1].Cards[1].fieldUse = function(self)--this function is to be set in a fieldButton
@@ -45,9 +46,9 @@ function ZoneHandler:new(o)
     end
 
     --2nd ability
-    o.Zone_Decks[1].Cards[2].name = "Wide swipe"
+    o.Zone_Decks[1].Cards[2].name = "Swipe"
     o.Zone_Decks[1].Cards[2].choises = {{x=1, y=1},{x=0, y=1},{x=-1, y=1}}
-    o.Zone_Decks[1].Cards[2].activate = function(self)
+    o.Zone_Decks[1].Cards[2].execute = function(self)
         o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
     end
     o.Zone_Decks[1].Cards[2].fieldUse = function(self)--this function is to be set in a fieldButton
@@ -63,8 +64,10 @@ function ZoneHandler:new(o)
     --3rd ability
     o.Zone_Decks[1].Cards[3].name = "Spear"
     o.Zone_Decks[1].Cards[3].choises = {{x=0, y=1},{x=0, y=2}}
-    o.Zone_Decks[1].Cards[3].activate = function(self)
-        o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
+    o.Zone_Decks[1].Cards[3].execute = function(self)
+
+        --o.Zone_Fields[1].
+        --o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
     end
     o.Zone_Decks[1].Cards[3].fieldUse = function(self)--this function is to be set in a fieldButton
         local field = o.Zone_Fields[1]
@@ -77,9 +80,9 @@ function ZoneHandler:new(o)
     end
 
     --4th ability
-    o.Zone_Decks[1].Cards[4].name = "dash"
+    o.Zone_Decks[1].Cards[4].name = "Dash"
     o.Zone_Decks[1].Cards[4].choises = {{x=0, y=-2},{x=0, y=2}}
-    o.Zone_Decks[1].Cards[4].activate = function(self)
+    o.Zone_Decks[1].Cards[4].execute = function(self)
         o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
     end
     o.Zone_Decks[1].Cards[4].fieldUse = function(self)--this function is to be set in a fieldButton

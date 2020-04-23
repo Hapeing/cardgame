@@ -59,6 +59,7 @@ function Hand:addCard(card, i)--should return true/false
             hand = zHandler.Zone_Hands[1]
             if (hand.selectedCard == self.I) then
                 hand.selectedCard = 0
+                --zHandler.Zone_Fields[1]:disableButtons(self.choises)
             elseif (hand.selectedCard ~= 0) then
                 print("Ability " .. hand.selectedCard .. " is active")
             else

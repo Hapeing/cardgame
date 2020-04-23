@@ -9,7 +9,7 @@ function Field:new(o)
     self.__index = self
 
 
-    o.nrOfRows = o.nrOfRows or 7
+    o.nrOfRows = o.nrOfRows or 9
     o.nrOfChannels = o.nrOfChannels or  5
     o.nrOfCards = {}--nr or cards per channel
     o.selectedSquare = {x=nil, y=nil}
@@ -67,19 +67,9 @@ function Field:new(o)
                     --print("__end button:move()")
                 end,
                 released = function(self, zHandler)
-                    local field = zHandler.Zone_Fields[1]
+                    --local field = zHandler.Zone_Fields[1]
 
-                    -- if(field.selectedSquare.x ~= self.fieldChannel and 
-                    -- field.selectedSquare.y ~= self.fieldRow and
-                    -- field.selectedSquare.x ~= nil and 
-                    -- field.selectedSquare.y ~= nil) then
-                        
-                    --     self:move()
-                    -- else
-                    --     self:select(field)
-                    -- end
-
-                    local I = self.fieldChannel*field.nrOfRows-(field.nrOfRows-self.fieldRow)
+                    --local I = self.fieldChannel*field.nrOfRows-(field.nrOfRows-self.fieldRow)
 
                     self:use(zHandler, I)
                     
@@ -179,7 +169,28 @@ function Field:new(o)
         end
     end
 
-    o:addCard(Creature:new(),o.player.x, o.player.y)
+    o:addButton({
+        x = W_WIDTH * 0.9, y = W_HEIGHT * 0.5,
+        released =  function(self, zHandler)
+            for i = 1, o.nrOfChannels do
+                for j = 1, o.nrOfRows do
+                    if (o.Cards[i][j]) then
+                        o.Cards[i][j]:turnSwitch(o)
+                    end
+                end
+            end
+            for i, crd in ipairs(zHandler.Zone_Hands[1].Cards) do
+                crd:turnSwitch(o)
+            end
+            self.r = self.r_org
+            self.g = self.g_org
+            self.b = self.b_org
+        end
+    })
+
+    o:addCard(Creature:new({turnSwitch = function(self,field) end, power = 0}),o.player.x, o.player.y)
+    o:addCard(Creature:new({power = 1}),3, 7)
+    o:addCard(Creature:new({power = 2}),4, 7)
 
 
     return o
@@ -224,6 +235,7 @@ function Field:addCard(card, channel, row)
 
 
     self.Cards[channel][row] = card
+    self.Cards[channel][row].gridPos = {x=channel, y=row}
 
     local I = self:getButtonIndex(channel, row)
 
@@ -257,13 +269,6 @@ end
 
 function Field:removeCard(channel, row)--returns card
 
-
-
-    -- print("Field:removeCard()")
-    -- print("local channel: ")
-    -- print(channel)
-    -- print("__end Field:removeCard()")
-
     self.nrOfCards[channel] = self.nrOfCards[channel] - 1
     
     local card = self.Cards[channel][row]
@@ -288,12 +293,15 @@ function Field:draw()
         end
     end
 
-    for i=1, 30 do
-        for j=1, 30 do
+    for i=1, self.nrOfChannels do
+        for j=1, self.nrOfRows do
             if (self.Cards[i]) then
+                lg.setColor(0, 0, 1)
+                lg.rectangle("fill", W_WIDTH*0.9 + i*25, W_HEIGHT*0.2 - j*25, 10, 10)
                 if (self.Cards[i][j]) then
+                    
                     lg.setColor(1, 1, 1)
-                    lg.print(self.Cards[i][j].cost, W_WIDTH*0.9 + i*25, W_HEIGHT*0.2 - j*25, 0, 1)
+                    lg.print(self.Cards[i][j].power, W_WIDTH*0.9 + i*25, W_HEIGHT*0.2 - j*25, 0, 1)
                 end
             end
         end
