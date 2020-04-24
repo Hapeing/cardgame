@@ -9,7 +9,7 @@ function Creature:new(o)
 
 
     o.power = o.power or -1
-    o.health = o.health or 10
+    o.health = o.health or 2
     --collection of positions related to this creature (1-9)
     --this creature is nr 5
     --o.support = o.support or {}
@@ -20,6 +20,11 @@ end
 function Creature:turnSwitch(field)
     
     --print("Try to move " .. self.power)
+    if (self.health < 1) then
+        field:removeCard(self.gridPos.x, self.gridPos.y)
+        return false
+    end
+
     field:addCard(field:removeCard(self.gridPos.x, self.gridPos.y),self.gridPos.x, self.gridPos.y - 1)
     
         

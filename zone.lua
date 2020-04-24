@@ -82,9 +82,19 @@ function Zone:update(game, dt)--bug: press and hold one button, move to another 
         end
         self.I_btnPressed = 0
 
-    --elseif (self.I_btnPressed == 0) then
+    else
+        for i, btn in pairs(self.Buttons) do 
+            if (btn.x < love.mouse.getX() and
+                btn.y < love.mouse.getY() and
+                btn.x + btn.width > love.mouse.getX() and
+                btn.y + btn.hight > love.mouse.getY() and
+                btn.active) then
+                    btn:hover()
+                else
+                    btn:noHover()
+            end
+        end
 
-        --Game.mousePressed = false
     end
 
 end

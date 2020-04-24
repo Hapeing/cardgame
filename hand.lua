@@ -45,7 +45,7 @@ function Hand:addCard(card, i)--should return true/false
         y = self.cardsY - self.cardSelectFrame,
         width = self.cardW + self.cardSelectFrame * 2, 
         hight = self.cardH + self.cardSelectFrame * 2,
-        r = 0, g = 0.5, b = 0,
+        r_org = 0, g_org = 0.5, b_org = 0,
         I = self.nrOfCards,
         pressed = function(self) self.g = 1 end,
         released = function(self, zHandler) 

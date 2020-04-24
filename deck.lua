@@ -20,7 +20,7 @@ function Deck:new()
         y = o.y,
         width = o.width, 
         hight = o.hight,
-        r = o.color.r, g = o.color.g, b = o.color.b,
+        r_org = o.color.r, g_org = o.color.g, b_org = o.color.b,
         pressed = function(self) self.g = 1 end,
         released = function(self, zHandler) 
             if (zHandler.Zone_Decks[1].nrOfCards > 0)then
