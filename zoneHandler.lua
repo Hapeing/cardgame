@@ -49,7 +49,15 @@ function ZoneHandler:new(o)
     o.Zone_Decks[1].Cards[2].name = "Swipe"
     o.Zone_Decks[1].Cards[2].choises = {{x=1, y=1},{x=0, y=1},{x=-1, y=1}}
     o.Zone_Decks[1].Cards[2].execute = function(self)
-        o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
+        local field = o.Zone_Fields[1]
+        for i, pos in pairs(self.choises) do
+            if (field.Cards[field.player.x + pos.x][field.player.y + pos.y]) then
+                field.Cards[field.player.x + pos.x][field.player.y + pos.y].health = field.Cards[field.player.x + pos.x][field.player.y + pos.y].health - 2
+            end
+        end
+        --if enemies are in the aoe then
+        --reduce health by dmg
+        o.Zone_Hands[1].selectedCard = 0
     end
     o.Zone_Decks[1].Cards[2].fieldUse = function(self)--this function is to be set in a fieldButton
         local field = o.Zone_Fields[1]
@@ -65,9 +73,19 @@ function ZoneHandler:new(o)
     o.Zone_Decks[1].Cards[3].name = "Spear"
     o.Zone_Decks[1].Cards[3].choises = {{x=0, y=1},{x=0, y=2}}
     o.Zone_Decks[1].Cards[3].execute = function(self)
+        local field = o.Zone_Fields[1]
+        for i, pos in pairs(self.choises) do
+            if (field.Cards[field.player.x + pos.x][field.player.y + pos.y]) then
+                field.Cards[field.player.x + pos.x][field.player.y + pos.y].health = field.Cards[field.player.x + pos.x][field.player.y + pos.y].health - 2
+            end
+        end
+        --if enemies are in the aoe then
+        --reduce health by dmg
 
         --o.Zone_Fields[1].
         --o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
+        o.Zone_Hands[1].selectedCard = 0
+
     end
     o.Zone_Decks[1].Cards[3].fieldUse = function(self)--this function is to be set in a fieldButton
         local field = o.Zone_Fields[1]
