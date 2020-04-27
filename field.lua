@@ -276,6 +276,23 @@ end
 
 function Field:draw()
 
+    
+
+    for i=1, self.nrOfChannels do
+        for j=1, self.nrOfRows do
+            if (self.Cards[i]) then
+                lg.setColor(0.2, 0.2, 1)
+                lg.rectangle("fill", W_WIDTH*0.9 + i*25 -3, W_HEIGHT*0.2 - j*25 -3, 20, 20)
+                lg.rectangle("fill", 150 * i, 700 - 100 * j, 80, 80)
+                if (self.Cards[i][j]) then
+                    lg.setColor(1, 1, 1)
+                    lg.print(self.Cards[i][j].cost, W_WIDTH*0.9 + i*25, W_HEIGHT*0.2 - j*25, 0, 1)
+                    
+                end
+            end
+        end
+    end
+
     self:drawButtons()
 
     for i, row in pairs(self.Cards) do 
@@ -287,21 +304,5 @@ function Field:draw()
 
         end
     end
-
-    for i=1, self.nrOfChannels do
-        for j=1, self.nrOfRows do
-            if (self.Cards[i]) then
-                lg.setColor(0, 0, 0.8)
-                lg.rectangle("fill", W_WIDTH*0.9 + i*25 -3, W_HEIGHT*0.2 - j*25 -3, 20, 20)
-                if (self.Cards[i][j]) then
-                    lg.setColor(1, 1, 1)
-                    lg.print(self.Cards[i][j].cost, W_WIDTH*0.9 + i*25, W_HEIGHT*0.2 - j*25, 0, 1)
-                    
-                end
-            end
-        end
-    end
-
-            
 
 end
