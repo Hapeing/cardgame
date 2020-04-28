@@ -7,7 +7,9 @@ function Creature:new(o)
     setmetatable(o, self)
     self.__index = self
 
-
+    o.arr_grid = {x=1, y=1} or o.arr_grid
+    o.damage = o.damage or 1
+    o.health = o.health or 10
     o.power = o.power or -1
     o.health = o.health or 2
     --collection of positions related to this creature (1-9)
@@ -17,19 +19,10 @@ function Creature:new(o)
     return o
 end
 
-function Creature:turnSwitch(field)
-    
-    --print("Try to move " .. self.power)
-    if (self.health < 1) then
-        field:removeCard(self.gridPos.x, self.gridPos.y)
-        return false
-    end
 
-    field:addCard(field:removeCard(self.gridPos.x, self.gridPos.y),self.gridPos.x, self.gridPos.y - 1)
-    
-        
-    --field.player.x = self.gridPos.x
-    --field.player.y = self.gridPos.y
+function Creature:switchTurn(field)
+    field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
+
 end
 
 function Creature:draw(x, y, w, h)
@@ -41,6 +34,8 @@ function Creature:draw(x, y, w, h)
     lg.rectangle("fill", x, y, w * 2.5, h)
     lg.setColor(0, 0, 0)
     --lg.setColor(255, 255, 255)
-    lg.print("C:" .. self.cost .. "\nH: ".. self.health .."\nP:" .. self.power, x +10, y + 10, 0, 1)
+
+    lg.print("C:" .. self.cost .. "\nHP:" .. self.health .. "\nP:" .. self.power, x +10, y + 10, 0, 1)
+
 
 end

@@ -41,7 +41,7 @@ function Button:new(o)
     return o
 end
 
-function Button:pressed(dt)
+function Button:pressed()
     self.r = self.r_prs
     self.g = self.g_prs
     self.b = self.b_prs
@@ -68,7 +68,7 @@ end
 function Button:draw(scale)
 
     if (self.visable) then
-        scale = scale or 1
+        local scale = scale or 1
         --one color when inactive
         --one color when hover
         --one color when hover and mouse pressed

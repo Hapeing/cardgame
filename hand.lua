@@ -57,15 +57,17 @@ function Hand:addCard(card, i)--should return true/false
             --no:
             --select self
             hand = zHandler.Zone_Hands[1]
-            if (hand.selectedCard == self.I) then
-                hand.selectedCard = 0
-                --zHandler.Zone_Fields[1]:disableButtons(self.choises)
-            elseif (hand.selectedCard ~= 0) then
-                print("Ability " .. hand.selectedCard .. " is active")
-            else
-                hand.selectedCard = self.I
-                zHandler.Zone_Hands[1].Cards[self.I]:activate()
-            end
+
+            -- if (hand.selectedCard == self.I) then
+            --     hand.selectedCard = 0
+            -- elseif (hand.selectedCard ~= 0) then
+            --     print("Ability " .. hand.selectedCard .. " is active")
+            -- else
+            --     hand.selectedCard = self.I
+            --     hand.Cards[self.I]:activate()
+            -- end
+            --print(zHandler)
+            hand.Cards[self.I]:activate(zHandler, self.I)
 
 
             
@@ -107,8 +109,8 @@ function Hand:draw()
 
     end
     
-    lg.setColor(1, 1, 1)
-    lg.print("Select channel before clicking the card.\nCurrent selection: Channel " .. self.selectedChannel, W_WIDTH/2, W_HEIGHT-(W_HEIGHT*0.1), 0, 3)
+    -- lg.setColor(1, 1, 1)
+    -- lg.print("Select channel before clicking the card.\nCurrent selection: Channel " .. self.selectedChannel, W_WIDTH/2, W_HEIGHT-(W_HEIGHT*0.1), 0, 3)
 
 
 end

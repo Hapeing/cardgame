@@ -14,7 +14,7 @@ function Card:new(o)
     return o
 end
 
-function Card:turnSwitch()
+function Card:switchTurn()
 
 end
 

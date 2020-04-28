@@ -10,7 +10,9 @@ function Field:new(o)
 
 
     o.nrOfRows = o.nrOfRows or 9
-    o.nrOfChannels = o.nrOfChannels or  5
+
+    o.nrOfChannels = o.nrOfChannels or  8
+
     o.nrOfCards = {}--nr or cards per channel
     o.selectedSquare = {x=nil, y=nil}
     o.player = {x=3, y=1}
@@ -20,7 +22,7 @@ function Field:new(o)
         o.Cards[i] = {}--each array is its own channel from left to right
         for j = 1, o.nrOfRows do
             o:addButton({
-                x = 150 * i,
+                x = 100 * i,
                 y = 700 - 100 * j,
                 fieldChannel = i,
                 fieldRow = j,
@@ -169,18 +171,19 @@ function Field:new(o)
         end
     end
 
-    o:addButton({
-        x = W_WIDTH * 0.9, y = W_HEIGHT * 0.5,
-        released =  function(self, zHandler)
-            for i = 1, o.nrOfChannels do
-                for j = 1, o.nrOfRows do
-                    if (o.Cards[i][j]) then
-                        o.Cards[i][j]:turnSwitch(o)
-                    end
+
+    o:addButton({x= W_WIDTH * 0.01, y=W_HEIGHT * 0.75,
+        hight=128, width=128,
+        released = function(self)
+            for i, channel in pairs(o.Cards) do
+                for j, creature in pairs(channel) do
+                    creature:switchTurn(o)
                 end
             end
-            for i, crd in ipairs(zHandler.Zone_Hands[1].Cards) do
-                crd:turnSwitch(o)
+
+            for i, boost in pairs(Game.ZoneHandler.Zone_Hands[1]) do
+                boost:switchTurn()
+
             end
             self.r = self.r_org
             self.g = self.g_org
@@ -188,30 +191,54 @@ function Field:new(o)
         end
     })
 
-    o:addCard(Creature:new({turnSwitch = function(self,field) end, power = 0}),o.player.x, o.player.y)
-    o:addCard(Creature:new({power = 1}),3, 7)
-    o:addCard(Creature:new({power = 2}),4, 7)
+
+    --adding the player
+    o:addCard(Creature:new({switchTurn = function(self) end, health = 10}),o.player.x, o.player.y)
+    
+    --test monsters
+    o:addCard(Creature:new(),4, 7)
+    o:addCard(Creature:new(),5, 7)
+
 
 
     return o
 end
 
 function Field:enableButtons(button_arr, fieldUse)
+    local arr_result = {}
     for i, btn in pairs(button_arr) do
-        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].use = fieldUse
+        local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
+        if (int_btnIndex) then
+            self.Buttons[int_btnIndex].use = fieldUse
+            
+            self.Buttons[int_btnIndex].active = true
+            self.Buttons[int_btnIndex].visable = true
+            self.Buttons[int_btnIndex].choises = button_arr
 
-        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].active = true
-        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].visable = true
-        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].choises = button_arr
+            arr_result[int_btnIndex] = self.Buttons[int_btnIndex]
+        end
     end
+    return arr_result
 end
 
 function Field:disableButtons(button_arr)
     for i, btn in pairs(button_arr) do
-        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].use = nil
+        local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
+        if (int_btnIndex) then
+            self.Buttons[int_btnIndex].use = nil
+            
+            self.Buttons[int_btnIndex].active = false
+            self.Buttons[int_btnIndex].visable = false
+        end
+    end
+end
 
-        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].active = false
-        self.Buttons[self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)].visable = false
+function Field:visableButtons(button_arr, visable)
+    if (visable == nil) then visable = true end --ska toggla visable
+    if (button_arr == nil) then print("+ERROR: button_arr = nil") end 
+
+    for i, btn in pairs(button_arr) do
+        self.Buttons[self:getButtonIndex(btn.x + self.player.x, btn.y + self.player.y)].visable = visable
     end
 end
 
@@ -233,6 +260,7 @@ function Field:addCard(card, channel, row)
     -- print("|Card added\n|cost: " .. card.cost)
     -- print("|channel: " .. channel .. "\n|row: " .. row)
 
+    card.arr_grid = {x=channel, y=row}
 
     self.Cards[channel][row] = card
     self.Cards[channel][row].gridPos = {x=channel, y=row}
@@ -281,32 +309,34 @@ end
 
 function Field:draw()
 
-    self:drawButtons()
-
-    for i, row in pairs(self.Cards) do 
-        for j, card in pairs(row) do 
-            
-            card:draw(150 * i, 700 - 100 * j, 20)
-            
-            
-
-        end
-    end
+    
 
     for i=1, self.nrOfChannels do
         for j=1, self.nrOfRows do
             if (self.Cards[i]) then
-                lg.setColor(0, 0, 1)
-                lg.rectangle("fill", W_WIDTH*0.9 + i*25, W_HEIGHT*0.2 - j*25, 10, 10)
+
+                lg.setColor(0.2, 0.2, 1)
+                lg.rectangle("fill", W_WIDTH*0.8 + i*25 -3, W_HEIGHT*0.4 - j*25 -3, 20, 20)
+                lg.rectangle("fill", 100 * i, 700 - 100 * j, 80, 80)
                 if (self.Cards[i][j]) then
                     
                     lg.setColor(1, 1, 1)
-                    lg.print(self.Cards[i][j].power, W_WIDTH*0.9 + i*25, W_HEIGHT*0.2 - j*25, 0, 1)
+                    lg.print(self.Cards[i][j].cost, W_WIDTH*0.8 + i*25, W_HEIGHT*0.4 - j*25, 0, 1)
+                    
+
                 end
             end
         end
     end
 
+    self:drawButtons()
+
+    for i, row in pairs(self.Cards) do 
+        for j, card in pairs(row) do 
             
+            card:draw(100 * i, 700 - 100 * j, 20)
+
+        end
+    end
 
 end
