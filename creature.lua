@@ -8,6 +8,8 @@ function Creature:new(o)
     self.__index = self
 
 
+    o.damage = o.damage or 1
+    o.health = o.health or 10
     o.power = o.power or -1
     
     --collection of positions related to this creature (1-9)
@@ -15,6 +17,10 @@ function Creature:new(o)
     o.support = o.support or {}
 
     return o
+end
+
+function Creature:switchTurn()
+
 end
 
 function Creature:draw(x, y, w, h)
@@ -26,6 +32,6 @@ function Creature:draw(x, y, w, h)
     lg.rectangle("fill", x, y, w * 2.5, h)
     lg.setColor(0, 0, 0)
     --lg.setColor(255, 255, 255)
-    lg.print("C:" .. self.cost .. "\n\nP:" .. self.power, x +10, y + 10, 0, 1)
+    lg.print("C:" .. self.cost .. "\nHP:" .. self.health .. "\nP:" .. self.power, x +10, y + 10, 0, 1)
 
 end

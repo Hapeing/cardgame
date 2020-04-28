@@ -15,8 +15,52 @@ function Boost:new(o)
     return o
 end
 
-function Boost:activate()
-    print("activate card: " .. self.power)
+function Boost:activate(zHandler, int_index)
+    --print("activate card: " .. self.power)
+    --print(zHandler)
+    --print(int_index)
+    self:preExecute(zHandler)
+    if (self:checkExecute(zHandler, int_index)) then
+        --self:execute()
+        self:postExecute(zHandler)
+    end
+end
+
+function Boost:checkExecute(zHandler, int_index)
+    --is self selected?
+    --yes -> deselect self
+    --no:
+    --is anything selected?
+    --yes -> do nothing
+    --no:
+    --select self
+    if (zHandler.Zone_Hands[1].selectedCard == int_index) then
+        print("Deactivate " .. int_index)
+        zHandler.Zone_Hands[1].selectedCard = 0
+        zHandler.Zone_Fields[1]:disableButtons(self.choises)
+        return false
+    elseif (zHandler.Zone_Hands[1].selectedCard ~= 0) then
+        print("Cant activate " .. int_index .. ". Because " .. zHandler.Zone_Hands[1].selectedCard .. " is active")
+        return false
+    else
+        print("Activate " .. int_index)
+        zHandler.Zone_Hands[1].selectedCard = int_index
+        zHandler.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
+        return false
+        --zHandler.Zone_Hands[1].Cards[int_index]:activate()
+    end
+    return true
+end
+
+function Boost:preExecute(zHandler)
+    -- if (self.choises ~= nil) then
+    --     zHandler.Zone_Fields[1]:visableButtons(self.choises)
+    -- end
+end
+
+function Boost:postExecute(zHandler)
+    self.cooling = self.cooldown
+    zHandler.Zone_Fields[1]:visableButtons(self.choises, false)
 end
 
 function Boost:draw(x, y, w, h)
