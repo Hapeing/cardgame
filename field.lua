@@ -20,7 +20,7 @@ function Field:new(o)
         o.Cards[i] = {}--each array is its own channel from left to right
         for j = 1, o.nrOfRows do
             o:addButton({
-                x = 150 * i,
+                x = 100 * i,
                 y = 700 - 100 * j,
                 fieldChannel = i,
                 fieldRow = j,
@@ -179,13 +179,37 @@ function Field:new(o)
         end
     end
 
+    o:addButton({x= W_WIDTH * 0.01, y=W_HEIGHT * 0.75,
+        hight=128, width=128,
+        released = function(self)
+            for i, channel in pairs(o.Cards) do
+                for j, creature in pairs(channel) do
+                    creature:switchTurn(o)
+                end
+            end
+
+            for i, boost in pairs(Game.ZoneHandler.Zone_Hands[1]) do
+                boost:switchTurn()
+            end
+            self.r = self.r_org
+            self.g = self.g_org
+            self.b = self.b_org
+        end
+    })
+
+    --adding the player
     o:addCard(Creature:new({switchTurn = function(self) end, health = 10}),o.player.x, o.player.y)
+    
+    --test monsters
+    o:addCard(Creature:new(),4, 7)
+    o:addCard(Creature:new(),5, 7)
 
 
     return o
 end
 
 function Field:enableButtons(button_arr, fieldUse)
+    local arr_result = {}
     for i, btn in pairs(button_arr) do
         local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
         if (int_btnIndex) then
@@ -194,8 +218,11 @@ function Field:enableButtons(button_arr, fieldUse)
             self.Buttons[int_btnIndex].active = true
             self.Buttons[int_btnIndex].visable = true
             self.Buttons[int_btnIndex].choises = button_arr
+
+            arr_result[int_btnIndex] = self.Buttons[int_btnIndex]
         end
     end
+    return arr_result
 end
 
 function Field:disableButtons(button_arr)
@@ -237,6 +264,7 @@ function Field:addCard(card, channel, row)
     -- print("|Card added\n|cost: " .. card.cost)
     -- print("|channel: " .. channel .. "\n|row: " .. row)
 
+    card.arr_grid = {x=channel, y=row}
 
     self.Cards[channel][row] = card
 
@@ -298,7 +326,7 @@ function Field:draw()
             if (self.Cards[i]) then
                 lg.setColor(0.2, 0.2, 1)
                 lg.rectangle("fill", W_WIDTH*0.8 + i*25 -3, W_HEIGHT*0.4 - j*25 -3, 20, 20)
-                lg.rectangle("fill", 150 * i, 700 - 100 * j, 80, 80)
+                lg.rectangle("fill", 100 * i, 700 - 100 * j, 80, 80)
                 if (self.Cards[i][j]) then
                     lg.setColor(1, 1, 1)
                     lg.print(self.Cards[i][j].cost, W_WIDTH*0.8 + i*25, W_HEIGHT*0.4 - j*25, 0, 1)
@@ -313,7 +341,7 @@ function Field:draw()
     for i, row in pairs(self.Cards) do 
         for j, card in pairs(row) do 
             
-            card:draw(150 * i, 700 - 100 * j, 20)
+            card:draw(100 * i, 700 - 100 * j, 20)
 
         end
     end

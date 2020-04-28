@@ -7,7 +7,7 @@ function Creature:new(o)
     setmetatable(o, self)
     self.__index = self
 
-
+    o.arr_grid = {x=1, y=1} or o.arr_grid
     o.damage = o.damage or 1
     o.health = o.health or 10
     o.power = o.power or -1
@@ -19,8 +19,8 @@ function Creature:new(o)
     return o
 end
 
-function Creature:switchTurn()
-
+function Creature:switchTurn(field)
+    field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
 end
 
 function Creature:draw(x, y, w, h)

@@ -22,7 +22,7 @@ function Boost:activate(zHandler, int_index)
     self:preExecute(zHandler)
     if (self:checkExecute(zHandler, int_index)) then
         --self:execute()
-        self:postExecute(zHandler)
+        --self:postExecute(zHandler)
     end
 end
 
@@ -45,11 +45,19 @@ function Boost:checkExecute(zHandler, int_index)
     else
         print("Activate " .. int_index)
         zHandler.Zone_Hands[1].selectedCard = int_index
-        zHandler.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
+        for i, btn in pairs(zHandler.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)) do
+            btn.int_callback = self.power
+        end
+
+
         return false
         --zHandler.Zone_Hands[1].Cards[int_index]:activate()
     end
     return true
+end
+
+function Boost:switchTurn()
+    self.cooling = self.cooling - 1
 end
 
 function Boost:preExecute(zHandler)
@@ -60,7 +68,8 @@ end
 
 function Boost:postExecute(zHandler)
     self.cooling = self.cooldown
-    zHandler.Zone_Fields[1]:visableButtons(self.choises, false)
+    zHandler.Zone_Fields[1]:disableButtons(self.choises, false)
+    zHandler.Zone_Hands[1].selectedCard = 0
 end
 
 function Boost:draw(x, y, w, h)
@@ -68,9 +77,9 @@ function Boost:draw(x, y, w, h)
     h = h or w * 3.5
 
     lg.setColor(1, 1, 0)
-    lg.rectangle("fill", x, y, w * 2.5, h)
+    lg.rectangle("fill", x, y + 30*self.cooling, w * 2.5, h)
 
     lg.setColor(0, 0, 0)
-    lg.print(self.name .. "\nC:" .. self.cooldown .. "\n\n\nID:" .. self.power, x +10, y + 10, 0, 2)
+    lg.print(self.name .. "\nC:" .. self.cooldown .. "\n\n\nID:" .. self.power, x +10 + 30*self.cooling, y + 10, 0, 2)
 
 end

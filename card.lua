@@ -14,6 +14,9 @@ function Card:new(o)
     return o
 end
 
+function Card:switchTurn()
+end
+
 function Card:draw(x, y, w, h)
 
     h = h or w * 3.5
