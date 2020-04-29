@@ -66,7 +66,7 @@ function Boost:switchTurn(zHandler)--bug:buttons are not disabled when switching
     -- if (zHandler.Zone_Hands[1].selectedCard ~= 0) then
     --     zHandler.Zone_Fields[1]:disableButtons(zHandler.Zone_Hands[1].Cards[zHandler.Zone_Hands[1].selectedCard].choises, false)
     -- end
-    zHandler.Zone_Hands[1].selectedCard = 0
+    --zHandler.Zone_Hands[1].selectedCard = 0
 end
 
 function Boost:preExecute(zHandler)

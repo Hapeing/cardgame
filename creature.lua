@@ -9,7 +9,7 @@ function Creature:new(o)
 
     o.arr_grid = {x=1, y=1} or o.arr_grid
     o.damage = o.damage or 1
-    o.health = o.health or 10
+    o.health = o.health or 1
     o.power = o.power or -1
     o.health = o.health or 2
     --collection of positions related to this creature (1-9)
@@ -21,6 +21,9 @@ end
 
 
 function Creature:switchTurn(field)
+    if (self.health <= 0) then
+        field:removeCard(self.arr_grid.x, self.arr_grid.y)
+    end
     field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
 
 end

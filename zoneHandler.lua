@@ -37,12 +37,19 @@ function ZoneHandler:new(o)
     end
     o.Zone_Decks[1].Cards[1].fieldUse = function(self)--this function is to be set in a fieldButton
         local field = o.Zone_Fields[1]
-        field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
-        
-        --o.Zone_Fields[1]:disableButtons(self.choises)
-        o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
-        field.player.x = self.fieldChannel
-        field.player.y = self.fieldRow
+
+        if (field.Cards[self.fieldChannel][self.fieldRow] == nil) then
+
+            field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
+            
+            --o.Zone_Fields[1]:disableButtons(self.choises)
+            o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
+            field.player.x = self.fieldChannel
+            field.player.y = self.fieldRow
+        else
+            print("invalid target")
+            o.Zone_Hands[1].selectedCard = 0
+        end
         --o.Zone_Hands[1].selectedCard = 0
     end
 
@@ -61,7 +68,14 @@ function ZoneHandler:new(o)
         
         --o.Zone_Fields[1]:disableButtons(self.choises)
         --o.Zone_Hands[1].selectedCard = 0
-        o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
+        if (field.Cards[self.fieldChannel][self.fieldRow]) then
+            field.Cards[self.fieldChannel][self.fieldRow].health = field.Cards[self.fieldChannel][self.fieldRow].health -1
+
+            o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
+        else
+            print("invalid target")
+            o.Zone_Hands[1].selectedCard = 0
+        end
         -- self.callback:postExecute(o)
     end
 
@@ -83,7 +97,13 @@ function ZoneHandler:new(o)
         
         --o.Zone_Fields[1]:disableButtons(self.choises)
        -- o.Zone_Hands[1].selectedCard = 0
-        o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
+        if (field.Cards[self.fieldChannel][self.fieldRow]) then
+            field.Cards[self.fieldChannel][self.fieldRow].health = field.Cards[self.fieldChannel][self.fieldRow].health -1
+            o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
+        else
+            print("invalid target")
+            o.Zone_Hands[1].selectedCard = 0
+        end
         --    self.callback:postExecute(o)
     end
 
@@ -96,14 +116,20 @@ function ZoneHandler:new(o)
     end
     o.Zone_Decks[1].Cards[4].fieldUse = function(self)--this function is to be set in a fieldButton
         local field = o.Zone_Fields[1]
-        field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
         
 
 
         --o.Zone_Fields[1]:disableButtons(self.choises)
-        o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
-        field.player.x = self.fieldChannel
-        field.player.y = self.fieldRow
+        if (field.Cards[self.fieldChannel][self.fieldRow] == nil) then
+            field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
+
+            o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
+            field.player.x = self.fieldChannel
+            field.player.y = self.fieldRow
+        else
+            print("invalid target")
+            o.Zone_Hands[1].selectedCard = 0
+        end
         --o.Zone_Hands[1].selectedCard = 0
         -- self.callback:postExecute(o)
     end
@@ -149,8 +175,3 @@ function ZoneHandler:draw()
     self.Zone_Graves:draw()
 
 end
-
-
-
-
---health and damage
