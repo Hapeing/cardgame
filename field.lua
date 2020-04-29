@@ -175,14 +175,17 @@ function Field:new(o)
     o:addButton({x= W_WIDTH * 0.01, y=W_HEIGHT * 0.75,
         hight=128, width=128,
         released = function(self)
-            for i, channel in pairs(o.Cards) do
-                for j, creature in pairs(channel) do
-                    creature:switchTurn(o)
+            for i = 1, o.nrOfChannels do
+                for j = 1, o.nrOfRows do
+                    if (o.Cards[i][j]) then
+                        o.Cards[i][j]:switchTurn(o)
+                    end
                 end
             end
 
-            for i, boost in pairs(Game.ZoneHandler.Zone_Hands[1]) do
-                boost:switchTurn()
+            for i = 1, Game.ZoneHandler.Zone_Hands[1].nrOfCards do
+                Game.ZoneHandler.Zone_Hands[1].Cards[i]:switchTurn(Game.ZoneHandler)
+                --print(boost.cooling)
 
             end
             self.r = self.r_org
@@ -196,8 +199,9 @@ function Field:new(o)
     o:addCard(Creature:new({switchTurn = function(self) end, health = 10}),o.player.x, o.player.y)
     
     --test monsters
-    o:addCard(Creature:new(),4, 7)
-    o:addCard(Creature:new(),5, 7)
+    --o:addCard(Creature:new({power = 1}),4, 7)
+    --o:addCard(Creature:new({power = 2}),5, 7)
+    o:addCard(Creature:new({power = 2}),6, 7)
 
 
 

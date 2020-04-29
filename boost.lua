@@ -43,6 +43,8 @@ function Boost:checkExecute(zHandler, int_index)
     elseif (zHandler.Zone_Hands[1].selectedCard ~= 0) then
         print("Cant activate " .. int_index .. ". Because " .. zHandler.Zone_Hands[1].selectedCard .. " is active")
         return false
+    elseif (self.cooling > 0) then
+        print("Ability " .. int_index .. " on cooldown")
     else
         print("Activate " .. int_index)
         zHandler.Zone_Hands[1].selectedCard = int_index
@@ -57,8 +59,14 @@ function Boost:checkExecute(zHandler, int_index)
     return true
 end
 
-function Boost:switchTurn()
-    self.cooling = self.cooling - 1
+function Boost:switchTurn(zHandler)--bug:buttons are not disabled when switching turns
+    if (self.cooling > 0) then
+        self.cooling = self.cooling - 1
+    end
+    -- if (zHandler.Zone_Hands[1].selectedCard ~= 0) then
+    --     zHandler.Zone_Fields[1]:disableButtons(zHandler.Zone_Hands[1].Cards[zHandler.Zone_Hands[1].selectedCard].choises, false)
+    -- end
+    zHandler.Zone_Hands[1].selectedCard = 0
 end
 
 function Boost:preExecute(zHandler)
@@ -83,12 +91,12 @@ function Boost:draw(x, y, w, h)
     lg.rectangle("fill", x, y + 30*self.cooling, w * 2.5, h)
 
     lg.setColor(0, 0, 0)
-    lg.print(self.name .. "\nC:" .. self.cooldown .. "\n\n\nID:" .. self.power, x +10 + 30*self.cooling, y + 10, 0, 2)
+    lg.print(self.name .. "\nC:" .. self.cooldown .. "\n\n\nID:" .. self.power, x +10, y + 10  + 30*self.cooling , 0, 2)
 end
 
-function Boost:turnSwitch()
-    --print("__start turnSwitch() " .. self.cooling .. self.power)
-    Game.ZoneHandler.Zone_Hands[1].selectedCard = 0
-    self:tickCooldown()
-    --print("__end turnSwitch() " .. self.cooling)
-end
+-- function Boost:turnSwitch()
+--     --print("__start turnSwitch() " .. self.cooling .. self.power)
+--     Game.ZoneHandler.Zone_Hands[1].selectedCard = 0
+--     self:tickCooldown()
+--     --print("__end turnSwitch() " .. self.cooling)
+-- end
