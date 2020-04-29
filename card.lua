@@ -7,6 +7,7 @@ function Card:new(o)
     self.__index = self
 
     o.cost = -1
+    o.boo_hasSwitched = false
     --o.special = nil --a function that will be called when the card is used
     --o.owner = -1 --playerID
     --o.visable = {} --table with playerIDs that should see the card
@@ -15,6 +16,7 @@ function Card:new(o)
 end
 
 function Card:switchTurn()
+    self.boo_hasSwitched = true
 
 end
 

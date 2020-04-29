@@ -24,8 +24,21 @@ function Creature:switchTurn(field)
     if (self.health <= 0) then
         field:removeCard(self.arr_grid.x, self.arr_grid.y)
     end
-    field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
+    if (self.arr_grid.y > 7) then
+        field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
+    else
+        self:ai(field)
+    end
+    self.boo_hasSwitched = true
+end
 
+function Creature:ai(field)
+    field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
+end
+
+function Creature:takeDamage(int_damage)
+    self.health = self.health - int_damage
+    return self.health
 end
 
 function Creature:draw(x, y, w, h)

@@ -1,4 +1,5 @@
 require "zone"
+require "monsters"
 
 Field = Zone:new()
 
@@ -9,7 +10,7 @@ function Field:new(o)
     self.__index = self
 
 
-    o.nrOfRows = o.nrOfRows or 9
+    o.nrOfRows = o.nrOfRows or 30
 
     o.nrOfChannels = o.nrOfChannels or  8
 
@@ -32,40 +33,40 @@ function Field:new(o)
                 move = function(self, field, I)
                     --print("button x y: " .. self.fieldChannel .. " " .. self.fieldRow)
                     --print("selected x y: " .. field.selectedSquare.x .. " " .. field.selectedSquare.y)
-                    
+
                     --print("__start button:move()")
                     -- print("self.channel: ")
                     -- print(self.fieldChannel)
                     --print("selectedSqare x & y:")
                     --print(field.selectedSquare.x)
                     --print(field.selectedSquare.y)
-                    
+
 
                     field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
-                    
-                    
+
+
                     local toDeactivate = {
                         field:getButtonIndex(field.player.x,   field.player.y),
                         field:getButtonIndex(field.player.x+1, field.player.y),
                         field:getButtonIndex(field.player.x-1, field.player.y),
                         field:getButtonIndex(field.player.x,   field.player.y+1),
                         field:getButtonIndex(field.player.x,   field.player.y-1)}
-                        
+
                         --field.Buttons[field:getButtonIndex(field.selectedSquare.x, field.selectedSquare.y)].active = false
                         --field.Buttons[field:getButtonIndex(field.selectedSquare.x, field.selectedSquare.y)].visable = false
                         for i=1, 5 do
                             if (toDeactivate[i] and toDeactivate[i] ~= field:getButtonIndex(self.fieldChannel, self.fieldRow)) then
-                                field.Buttons[toDeactivate[i]]:setUse("select", false, false, 
+                                field.Buttons[toDeactivate[i]]:setUse("select", false, false,
                                 {r=1,g=1,b=1}, {r=1,g=1,b=1})
                             end
                         end
-                        
+
                         field.player.x = self.fieldChannel
                         field.player.y = self.fieldRow
-                    
+
                     field.selectedSquare.x = nil
                     field.selectedSquare.y = nil
-                    
+
                     --print("__end button:move()")
                 end,
                 released = function(self, zHandler)
@@ -74,13 +75,13 @@ function Field:new(o)
                     --local I = self.fieldChannel*field.nrOfRows-(field.nrOfRows-self.fieldRow)
 
                     self:use(zHandler, I)
-                    
+
                     self.r = self.r_org
                     self.g = self.g_org
                     self.b = self.b_org
                 end,
                 select = function(self, zHandler, I)
-                    
+
 
 
                     --zHandler.Zone_Hands[1].target.x = self.fieldChannel
@@ -101,13 +102,13 @@ function Field:new(o)
                         field:getButtonIndex(self.fieldChannel, self.fieldRow+1),
                         field:getButtonIndex(self.fieldChannel, self.fieldRow-1)}
 
-                    if(field.selectedSquare.x == self.fieldChannel and 
+                    if(field.selectedSquare.x == self.fieldChannel and
                     field.selectedSquare.y == self.fieldRow) then
-                        
+
 
                         for i=1, 4 do
                             if (validMoves[i]) then
-                                field.Buttons[validMoves[i] ]:setUse("select", false, false, 
+                                field.Buttons[validMoves[i] ]:setUse("select", false, false,
                                 {r=1,g=1,b=1}, {r=1,g=1,b=1})
                             end
                         end
@@ -117,33 +118,33 @@ function Field:new(o)
                         field.selectedSquare.y = nil
 
 
-                    elseif(field.selectedSquare.x ~= nil and 
+                    elseif(field.selectedSquare.x ~= nil and
                     field.selectedSquare.y ~= nil) then
                         print("invalid button action")
                     else
-                        
+
                         field.selectedSquare.x = self.fieldChannel
                         field.selectedSquare.y = self.fieldRow
 
                         for i=1, 4 do
                             if (validMoves[i]) then
-                                field.Buttons[validMoves[i] ]:setUse("move", true, true, 
+                                field.Buttons[validMoves[i] ]:setUse("move", true, true,
                                 {r=0.5,g=0,b=0}, {r=0.5,g=0,b=0})
                             end
                         end
 
 
 
-                    
+
                     end--]]
-                
-                    
+
+
                 end,
                 deselect = function(self)
 
                 end,
                 setUse = function(self, F_use, active, visable, rgb, rgb_org)
-                   
+
 
                     if (F_use == "deselect")then
                         self.use = self.deselect
@@ -178,7 +179,17 @@ function Field:new(o)
             for i = 1, o.nrOfChannels do
                 for j = 1, o.nrOfRows do
                     if (o.Cards[i][j]) then
-                        o.Cards[i][j]:switchTurn(o)
+                        if (o.Cards[i][j].boo_hasSwitched == false) then
+                            o.Cards[i][j]:switchTurn(o)
+                        end
+                    end
+                end
+            end
+
+            for i = 1, o.nrOfChannels do
+                for j = 1, o.nrOfRows do
+                    if (o.Cards[i][j]) then
+                        o.Cards[i][j].boo_hasSwitched = false
                     end
                 end
             end
@@ -196,12 +207,17 @@ function Field:new(o)
 
 
     --adding the player
-    o:addCard(Creature:new({switchTurn = function(self) end, health = 10}),o.player.x, o.player.y)
+    o:addCard(Creature:new({switchTurn = function(self) end, health = 10, cost = "YOU"}),o.player.x, o.player.y)
+
     
-    --test monsters
-    --o:addCard(Creature:new({power = 1}),4, 7)
-    --o:addCard(Creature:new({power = 2}),5, 7)
-    o:addCard(Creature:new({power = 2}),6, 7)
+
+
+    o:addCard(Creature:new(Monsters:getBishop(o)), 6, 23)
+
+    o:addCard(Creature:new(Monsters:getPawn(o)), 6, 7)
+    o:addCard(Creature:new(Monsters:getPawn(o)), 4, 7)
+
+    -- o:addCard(Creature:new(bishop), 6, 8)
 
 
 
@@ -214,7 +230,7 @@ function Field:enableButtons(button_arr, fieldUse)
         local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
         if (int_btnIndex) then
             self.Buttons[int_btnIndex].use = fieldUse
-            
+
             self.Buttons[int_btnIndex].active = true
             self.Buttons[int_btnIndex].visable = true
             self.Buttons[int_btnIndex].choises = button_arr
@@ -230,7 +246,7 @@ function Field:disableButtons(button_arr)
         local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
         if (int_btnIndex) then
             self.Buttons[int_btnIndex].use = nil
-            
+
             self.Buttons[int_btnIndex].active = false
             self.Buttons[int_btnIndex].visable = false
         end
@@ -239,7 +255,7 @@ end
 
 function Field:visableButtons(button_arr, visable)
     if (visable == nil) then visable = true end --ska toggla visable
-    if (button_arr == nil) then print("+ERROR: button_arr = nil") end 
+    if (button_arr == nil) then print("+ERROR: button_arr = nil") end
 
     for i, btn in pairs(button_arr) do
         self.Buttons[self:getButtonIndex(btn.x + self.player.x, btn.y + self.player.y)].visable = visable
@@ -256,18 +272,18 @@ function Field:addCard(card, channel, row)
         --print("__end Field:addCard()")
         return false
     end
-    
+
     self.nrOfCards[channel] = self.nrOfCards[channel] + 1
     local row = row or self.nrOfCards[channel]
     --local row = row or 5
-    
+
     -- print("|Card added\n|cost: " .. card.cost)
     -- print("|channel: " .. channel .. "\n|row: " .. row)
 
-    card.arr_grid = {x=channel, y=row}
+    -- card.arr_grid = {x=channel, y=row}
 
     self.Cards[channel][row] = card
-    self.Cards[channel][row].gridPos = {x=channel, y=row}
+    self.Cards[channel][row].arr_grid = {x=channel, y=row}
 
     local I = self:getButtonIndex(channel, row)
 
@@ -283,7 +299,7 @@ function Field:addCard(card, channel, row)
     self.Buttons[I].r = 1
     self.Buttons[I].g = 1
     self.Buttons[I].b = 1
-    
+
     --print("__end of addCard")
 
     return true
@@ -302,7 +318,7 @@ end
 function Field:removeCard(channel, row)--returns card
 
     self.nrOfCards[channel] = self.nrOfCards[channel] - 1
-    
+
     local card = self.Cards[channel][row]
 
     self.Cards[channel][row] = nil
@@ -313,20 +329,27 @@ end
 
 function Field:draw()
 
-    
+
 
     for i=1, self.nrOfChannels do
         for j=1, self.nrOfRows do
             if (self.Cards[i]) then
 
                 lg.setColor(0.2, 0.2, 1)
-                lg.rectangle("fill", W_WIDTH*0.8 + i*25 -3, W_HEIGHT*0.4 - j*25 -3, 20, 20)
+                lg.rectangle("fill", W_WIDTH*0.8 + i*25 -3, W_HEIGHT*0.9 - j*25 -3, 20, 20)
                 lg.rectangle("fill", 100 * i, 700 - 100 * j, 80, 80)
-                if (self.Cards[i][j]) then
-                    
+
+
+                if (j == 7 )then
                     lg.setColor(1, 1, 1)
-                    lg.print(self.Cards[i][j].cost, W_WIDTH*0.8 + i*25, W_HEIGHT*0.4 - j*25, 0, 1)
-                    
+                    lg.rectangle("fill", W_WIDTH*0.8 -6, W_HEIGHT*0.9 - j*25 -6, 250, 5)
+                end
+
+                if (self.Cards[i][j]) then
+
+                    lg.setColor(1, 1, 1)
+                    lg.print(self.Cards[i][j].cost, W_WIDTH*0.8 + i*25, W_HEIGHT*0.9 - j*25, 0, 1)
+
 
                 end
             end
@@ -335,10 +358,11 @@ function Field:draw()
 
     self:drawButtons()
 
-    for i, row in pairs(self.Cards) do 
-        for j, card in pairs(row) do 
-            
+    for i, row in pairs(self.Cards) do
+        for j, card in pairs(row) do
+
             card:draw(100 * i, 700 - 100 * j, 20)
+            -- lg.print(self.Cards[i][j].arr_grid.x .. " " .. self.Cards[i][j].arr_grid.y, 100 * i, 700 - 100 * j, 0, 1)
 
         end
     end
