@@ -24,12 +24,19 @@ function Creature:switchTurn(field)
     if (self.health <= 0) then
         field:removeCard(self.arr_grid.x, self.arr_grid.y)
     end
+    
     if (self.arr_grid.y > 7) then
         field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
     else
-        self:ai(field)
+        if (self.specialSwitch()) then
+            self:ai(field)
+        end
     end
     self.boo_hasSwitched = true
+end
+
+function Creature:specialSwitch()--return true if ai shuld run
+    return true
 end
 
 function Creature:ai(field)
