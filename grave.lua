@@ -2,7 +2,7 @@ require "zone"
 
 Grave = Zone:new()
 
-function Grave:new()
+function Grave:new(o)
 
     local o = o or {}
     setmetatable(o, self)

@@ -74,7 +74,7 @@ function Field:new(o)
 
                     --print("__end button:move()")
                 end,
-                released = function(self, zHandler)
+                released = function(self, zHandler, I)
                     --local field = zHandler.Zone_Fields[1]
 
                     --local I = self.fieldChannel*field.nrOfRows-(field.nrOfRows-self.fieldRow)
