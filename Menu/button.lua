@@ -25,6 +25,11 @@ function Button:new(o)
     o.g_prs = o.g_prs or 1
     o.b_prs = o.b_prs or 0
 
+    --hovered colors
+    o.r_hov = o.r_hov or 0.5
+    o.g_hov = o.g_hov or 0.5
+    o.b_hov = o.b_hov or 0.5
+
     if (o.visable == nil) then
         o.visable = true
     end
@@ -36,7 +41,7 @@ function Button:new(o)
     return o
 end
 
-function Button:pressed(dt)
+function Button:pressed()
     self.r = self.r_prs
     self.g = self.g_prs
     self.b = self.b_prs
@@ -48,10 +53,22 @@ function Button:released()
     self.b = self.b_org
 end
 
+function Button:hover()
+    self.r = self.r_hov
+    self.g = self.g_hov
+    self.b = self.b_hov
+end
+
+function Button:noHover()
+    self.r = self.r_org
+    self.g = self.g_org
+    self.b = self.b_org
+end
+
 function Button:draw(scale)
 
     if (self.visable) then
-        scale = scale or 1
+        local scale = scale or 1
         --one color when inactive
         --one color when hover
         --one color when hover and mouse pressed
