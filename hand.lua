@@ -20,13 +20,14 @@ function Hand:new(o)
 
     o.cardSpace = 50
 
+    --o.int_selectedCard = 0
 
     --reserved buttons goes after all the others or thay have special tags as "summon" or "discard"
     --o.nrOfReservedButtons = o.nrOfReservedButtons or 5+2 --nrOfChannels +2
 
     --test code
     o.selectedChannel = 1
-    --o:addButton({x=0, y=0, hight=64, width=64})
+    -- o:addButton({x=0, y=0, hight=64, width=64})
     --o:addButton({x=64, y=64, hight=64, width=64})
 
     return o
@@ -39,23 +40,56 @@ function Hand:addCard(card, i)--should return true/false
     self.nrOfCards = self.nrOfCards + 1
 
     self:addButton({
-        x = self.firstCardX + (self.cardSpace + self.cardW) * self.nrOfCards - self.cardSelectFrame, 
+        x = self.firstCardX + (self.cardSpace + self.cardW) * self.nrOfCards - self.cardSelectFrame,
         y = self.cardsY - self.cardSelectFrame,
-        width = self.cardW + self.cardSelectFrame * 2, 
+        width = self.cardW + self.cardSelectFrame * 2,
         hight = self.cardH + self.cardSelectFrame * 2,
-        r = 0, g = 0.5, b = 0,
+        r_org = 0, g_org = 0.5, b_org = 0,
         I = self.nrOfCards,
         pressed = function(self) self.g = 1 end,
-        released = function(self, zHandler) 
+        foo_move = function(self, zHandler)
             zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Fields[1], self.I, zHandler.Zone_Hands[1].selectedChannel)
-            --print("Button index: " .. self.I)
-            self.g = 0.5 
-            
+        end,
+        foo_use = function(self, zHandler)
+            self:foo_default(zHandler)
+        end,
+        foo_inactive = function(self, zHandler)
+            print("foo_inactive() I:" .. self.I)
+        end,
+        foo_active = function(self, zHandler)
+            --turns buttons in hand to foo_default
+
+            -- print("Active button I:" .. self.I)
+            zHandler.Zone_Hands[1]:setButtons(self.foo_default)
+            -- print("foo_active() I:" .. self.I)
+            -- print("setButtons(foo_default)")
+        end,
+        foo_default = function (self, zHandler)
+            --set self to foo_active - OK
+            --set others to foo_inactive - OK
+            --set field buttons
+
+            zHandler.Zone_Hands[1]:setButtons(self.foo_inactive)
+            self.foo_use = self.foo_active
+            -- print("foo_default() I:" .. self.I)
+            -- print("setOtherButtons(foo_inactive)")
+        end,
+        released = function(self, zHandler)
+
+            self:foo_use(zHandler)
+            self.g = 0.5
+
         end
     })
 
 
     return true
+end
+
+function Hand:setButtons(foo)
+    for i, btn in pairs(self.Buttons) do
+        btn.foo_use = foo
+    end
 end
 
 function Hand:removeCard(i)--returns card
@@ -79,12 +113,12 @@ function Hand:draw()
 
     self:drawButtons()
 
-    for i, card in ipairs(self.Cards) do 
-        
+    for i, card in ipairs(self.Cards) do
+
         card:draw(self.firstCardX + (self.cardSpace + self.cardW) * i, self.cardsY, self.cardW/2.5, self.cardH)
 
     end
-    
+
     lg.setColor(1, 1, 1)
     lg.print("Select channel before clicking the card.\nCurrent selection: Channel " .. self.selectedChannel, W_WIDTH/2, W_HEIGHT-(W_HEIGHT*0.1), 0, 3)
 

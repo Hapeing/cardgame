@@ -11,8 +11,8 @@ function ZoneHandler:new(o)
     setmetatable(o, self)
     self.__index = self
 
-
-    o.Zone_Cycles = Cycle:new()
+    o.Zone_Cycles = {}
+    o.Zone_Cycles[1] = Cycle:new()
     o.Zone_Graves = Grave:new()
     o.Zone_Decks = {}
     o.Zone_Decks[1] = Deck:new()
@@ -160,7 +160,7 @@ function ZoneHandler:update(game, dt)
     self.Zone_Graves:update(game, dt)
     self.Zone_Hands[1]:update(game, dt)
     self.Zone_Decks[1]:update(game, dt)
-    self.Zone_Cycles:update(game, dt)
+    self.Zone_Cycles[1]:update(game, dt)
 
 end
 
@@ -169,7 +169,7 @@ function ZoneHandler:draw()
     self.Zone_Fields[1]:draw()
     self.Zone_Decks[1]:draw()
     self.Zone_Hands[1]:draw()
-    self.Zone_Cycles:draw()
+    self.Zone_Cycles[1]:draw()
     self.Zone_Graves:draw()
 
 end

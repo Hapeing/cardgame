@@ -211,44 +211,6 @@ function Field:new(o)
     })
 
 
-    --adding the player
-    o:addCard(Creature:new({switchTurn = function(self) end, health = 10, cost = "YOU"}),o.player.x, o.player.y)
-
-    
-
-
-    o:addCard(Creature:new(Monsters:getBishop(o)), 6, 23)
-
-
-    o:addCard(Creature:new(Monsters:getPawn(o)), 1, 8)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 2, 9)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 4, 10)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 3, 11)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 5, 12)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 6, 15)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 7, 15)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 8, 15)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 1, 18)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 2, 20)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 3, 23)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 4, 24)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 6, 24)
-    o:addCard(Creature:new(Monsters:getPawn(o)), 7, 25)
-
-
-
-
-    o:addCard(Creature:new(Monsters:getBishop(o)), 1, 13)
-    o:addCard(Creature:new(Monsters:getBishop(o)), 3, 14)
-    o:addCard(Creature:new(Monsters:getBishop(o)), 2, 14)
-    o:addCard(Creature:new(Monsters:getBishop(o)), 4, 17)
-    o:addCard(Creature:new(Monsters:getBishop(o)), 6, 17)
-    o:addCard(Creature:new(Monsters:getBishop(o)), 5, 21)
-    o:addCard(Creature:new(Monsters:getBishop(o)), 7, 21)
-    o:addCard(Creature:new(Monsters:getBishop(o)), 8, 26)
-
-
-
     -- o:addCard(Creature:new(bishop), 6, 8)
 
 
@@ -287,7 +249,7 @@ end
 
 function Field:visableButtons(button_arr, visable)
     if (visable == nil) then visable = true end --ska toggla visable
-    if (button_arr == nil) then print("+ERROR: button_arr = nil") end
+    if (button_arr == nil) then print("-ERROR: button_arr = nil") end
 
     for i, btn in pairs(button_arr) do
         self.Buttons[self:getButtonIndex(btn.x + self.player.x, btn.y + self.player.y)].visable = visable
