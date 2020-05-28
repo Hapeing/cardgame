@@ -60,17 +60,33 @@ function Hand:addCard(card, i)--should return true/false
             --turns buttons in hand to foo_default
 
             -- print("Active button I:" .. self.I)
-            zHandler.Zone_Hands[1]:setButtons(self.foo_default)
+            zHandler.Zone_Hands[1]:setButtons_foo(self.foo_default)
             -- print("foo_active() I:" .. self.I)
             -- print("setButtons(foo_default)")
         end,
         foo_default = function (self, zHandler)
             --set self to foo_active - OK
             --set others to foo_inactive - OK
-            --set field buttons
+            --set cycle buttons - OK
 
-            zHandler.Zone_Hands[1]:setButtons(self.foo_inactive)
+            zHandler.Zone_Hands[1]:setButtons_foo(self.foo_inactive)
             self.foo_use = self.foo_active
+
+            local int_hand_index = self.I
+            local temp_foo_default = self.foo_default
+
+            local foo_summon = function(self)--will be called from The cycle buttons
+
+                zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Fields[1], int_hand_index, self.int_channel)
+                zHandler.Zone_Cycles[1]:setButtons(false)
+                zHandler.Zone_Hands[1]:setButtons_foo(temp_foo_default)
+
+                
+            end
+            
+            zHandler.Zone_Cycles[1]:setButtons_foo(foo_summon)
+
+            zHandler.Zone_Cycles[1]:setButtons(true)
             -- print("foo_default() I:" .. self.I)
             -- print("setOtherButtons(foo_inactive)")
         end,
@@ -86,11 +102,7 @@ function Hand:addCard(card, i)--should return true/false
     return true
 end
 
-function Hand:setButtons(foo)
-    for i, btn in pairs(self.Buttons) do
-        btn.foo_use = foo
-    end
-end
+
 
 function Hand:removeCard(i)--returns card
 

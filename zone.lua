@@ -99,24 +99,39 @@ function Zone:update(game, dt)--bug: press and hold one button, move to another 
 
 end
 
-function Zone:disableButtons(arr_int_buttonIndex)
-    for i, btn in pairs(arr_int_buttonIndex) do
-        local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
-        if (int_btnIndex) then
-            self.Buttons[int_btnIndex].use = nil
+function Zone:setButtons_foo(foo)
+    for i, btn in pairs(self.Buttons) do
+        btn.foo_use = foo
+    end
+end
 
-            self.Buttons[int_btnIndex].active = false
-            self.Buttons[int_btnIndex].visable = false
+function Zone:setButtons(arr_button, boo_on)
+    boo_on = boo_on or false
+    if (arr_button == true or arr_button == false) then
+
+        for i, btn in pairs(self.Buttons) do
+
+            btn.active = arr_button
+            btn.visable = arr_button
+        end
+    else
+        for i, int_btn_I in pairs(arr_button) do
+
+            if (int_btn_I) then
+
+                self.Buttons[int_btn_I].active = boo_on
+                self.Buttons[int_btn_I].visable = boo_on
+            end
         end
     end
 end
 
-function Zone:visableButtons(button_arr, visable)
-    if (visable == nil) then visable = true end --ska toggla visable
-    if (button_arr == nil) then print("-ERROR: button_arr = nil") end
+function Zone:visableButtons(arr_button, visable)
+    if (visable == nil) then visable = true end
+    if (arr_button == nil) then print("-ERROR: button_arr = nil") end
 
-    for i, btn in pairs(button_arr) do
-        self.Buttons[self:getButtonIndex(btn.x + self.player.x, btn.y + self.player.y)].visable = visable
+    for i, int_btn_I in pairs(arr_button) do
+        self.Buttons[int_btn_I].visable = visable
     end
 end
 

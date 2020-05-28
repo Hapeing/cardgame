@@ -48,9 +48,15 @@ function Button:pressed()
 end
 
 function Button:released()
+    self:foo_use()
+
     self.r = self.r_org
     self.g = self.g_org
     self.b = self.b_org
+end
+
+function Button:foo_use()
+
 end
 
 function Button:hover()
