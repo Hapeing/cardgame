@@ -200,7 +200,7 @@ function Field:new(o)
             end
 
             for i = 1, Game.ZoneHandler.Zone_Hands[1].nrOfCards do
-                Game.ZoneHandler.Zone_Hands[1].Cards[i]:switchTurn(Game.ZoneHandler)
+                Game.ZoneHandler.Zone_Hands[1].Cards[i]:switchTurn(Game.ZoneHandler.Zone_Fields[1])
                 --print(boost.cooling)
 
             end
@@ -211,7 +211,7 @@ function Field:new(o)
     })
 
 
-    -- o:addCard(Creature:new(bishop), 6, 8)
+    o:addCard(Creature:new(Monsters:getBishop(o)), 6, 8)
 
 
 
@@ -342,7 +342,7 @@ function Field:draw()
                 if (self.Cards[i][j]) then
 
                     lg.setColor(1, 1, 1)
-                    lg.print(self.Cards[i][j].cost, W_WIDTH*0.8 + i*25, W_HEIGHT*0.9 - j*25, 0, 1)
+                    lg.print(self.Cards[i][j].power, W_WIDTH*0.8 + i*25, W_HEIGHT*0.9 - j*25, 0, 1)
 
 
                 end

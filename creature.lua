@@ -12,6 +12,7 @@ function Creature:new(o)
     o.health = o.health or 1
     o.power = o.power or -1
     o.health = o.health or 2
+    o.pos_moveTo = o.pos_moveTo or {}
     --collection of positions related to this creature (1-9)
     --this creature is nr 5
     --o.support = o.support or {}
@@ -22,28 +23,28 @@ end
 
 function Creature:switchTurn(field)
     if (self.health <= 0) then
+
         field:removeCard(self.arr_grid.x, self.arr_grid.y)
     end
     
     if (self.arr_grid.y > 7) then
+
         field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
     else
-        if (self.specialSwitch()) then
-            self:ai(field)
-        end
+        
+        self:ai(field)
     end
     self.boo_hasSwitched = true
 end
 
-function Creature:specialSwitch()--return true if ai shuld run
-    return true
-end
 
 function Creature:ai(field)
+
     field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
 end
 
 function Creature:takeDamage(int_damage)
+
     self.health = self.health - int_damage
     return self.health
 end

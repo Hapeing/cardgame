@@ -23,9 +23,9 @@ function ZoneHandler:new(o)
 
 
 
-    --fill the deck with boosts aka abilities
+    --fill the deck with creatures
     for i = 1, 30 do
-        o.Zone_Decks[1]:addCard(Creature:new({power = i, cost = i}))
+        o.Zone_Decks[1]:addCard(Creature:new({power = i, cost = i, switchTurn = function(self) end, int_owner = 1}))
     end
 
     for i = 1, 1 do
@@ -150,9 +150,6 @@ function ZoneHandler:changeZone(zoneFrom, zoneTo, removeIndex, addIndex)
 
 end
 
-function ZoneHandler:shuffle()
-
-end
 
 function ZoneHandler:update(game, dt)
 
@@ -167,9 +164,9 @@ end
 function ZoneHandler:draw()
 
     self.Zone_Fields[1]:draw()
-    self.Zone_Decks[1]:draw()
-    self.Zone_Hands[1]:draw()
-    self.Zone_Cycles[1]:draw()
     self.Zone_Graves:draw()
+    self.Zone_Hands[1]:draw()
+    self.Zone_Decks[1]:draw()
+    self.Zone_Cycles[1]:draw()
 
 end

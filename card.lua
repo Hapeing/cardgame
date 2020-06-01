@@ -8,6 +8,8 @@ function Card:new(o)
 
     o.cost = -1
     o.boo_hasSwitched = false
+    o.int_owner = o.int_owner or 0
+
     --o.special = nil --a function that will be called when the card is used
     --o.owner = -1 --playerID
     --o.visable = {} --table with playerIDs that should see the card
