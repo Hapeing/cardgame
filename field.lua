@@ -184,8 +184,21 @@ function Field:new(o)
             for i = 1, o.nrOfChannels do
                 for j = 1, o.nrOfRows do
                     if (o.Cards[i][j]) then
-                        if (o.Cards[i][j].boo_hasSwitched == false) then
+                        if (o.Cards[i][j].boo_hasSwitched == false) then--prevent creatures from moving twice in a turn
                             o.Cards[i][j]:switchTurn(o)
+                        end
+                    end
+                end
+            end
+            for i = 1, o.nrOfChannels do
+                for j = 1, o.nrOfRows do
+                    if (o.Cards[i][j]) then
+                        if (o.Cards[i][j].pos_moveTo.x ~= 0) then --ignores the creatures that will not move
+                            
+                            --Hand???
+                            -- print(o.Cards[i][j])
+                            --changezone()?
+                            o:move(o.Cards[i][j].arr_grid, o.Cards[i][j].pos_moveTo)
                         end
                     end
                 end
@@ -194,16 +207,16 @@ function Field:new(o)
             for i = 1, o.nrOfChannels do
                 for j = 1, o.nrOfRows do
                     if (o.Cards[i][j]) then
-                        o.Cards[i][j].boo_hasSwitched = false
+
+
+                        o.Cards[i][j].boo_hasSwitched = false--reset the check
                     end
                 end
             end
 
-            for i = 1, Game.ZoneHandler.Zone_Hands[1].nrOfCards do
-                Game.ZoneHandler.Zone_Hands[1].Cards[i]:switchTurn(Game.ZoneHandler.Zone_Fields[1])
-                --print(boost.cooling)
-
-            end
+            -- for i = 1, Game.ZoneHandler.Zone_Hands[1].nrOfCards do
+            --     Game.ZoneHandler.Zone_Hands[1].Cards[i]:switchTurn(Game.ZoneHandler.Zone_Fields[1])
+            -- end
             self.r = self.r_org
             self.g = self.g_org
             self.b = self.b_org
@@ -216,6 +229,10 @@ function Field:new(o)
 
 
     return o
+end
+
+function Field:move(pos_from, pos_to)
+    self:addCard(self:removeCard(pos_from.x, pos_from.y), pos_to.x, pos_to.y)--ignore this warning
 end
 
 function Field:enableButtons(button_arr, fieldUse)

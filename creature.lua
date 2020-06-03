@@ -12,7 +12,7 @@ function Creature:new(o)
     o.health = o.health or 1
     o.power = o.power or -1
     o.health = o.health or 2
-    o.pos_moveTo = o.pos_moveTo or {}
+    o.pos_moveTo = o.pos_moveTo or {x=0,y=0}
     --collection of positions related to this creature (1-9)
     --this creature is nr 5
     --o.support = o.support or {}
