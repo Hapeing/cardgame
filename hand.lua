@@ -20,13 +20,15 @@ function Hand:new(o)
 
     o.cardSpace = 50
 
+    o.squ_selectedCard = {pos_pixel= {x=-100, y=-100}, size_pixel = {hight = 10, width = 40}}
+
     --o.int_selectedCard = 0
 
     --reserved buttons goes after all the others or thay have special tags as "summon" or "discard"
     --o.nrOfReservedButtons = o.nrOfReservedButtons or 5+2 --nrOfChannels +2
 
     --test code
-    o.selectedChannel = 1
+    -- o.selectedChannel = 1
     -- o:addButton({x=0, y=0, hight=64, width=64})
     --o:addButton({x=64, y=64, hight=64, width=64})
 
@@ -61,6 +63,12 @@ function Hand:addCard(card, i)--should return true/false
 
             -- print("Active button I:" .. self.I)
             zHandler.Zone_Hands[1]:setButtons_foo(self.foo_default)
+
+            zHandler.Zone_Cycles[1]:setButtons(false)
+
+            zHandler.Zone_Hands[1].squ_selectedCard.pos_pixel.x = - 100
+            zHandler.Zone_Hands[1].squ_selectedCard.pos_pixel.y = - 100
+
             -- print("foo_active() I:" .. self.I)
             -- print("setButtons(foo_default)")
         end,
@@ -81,12 +89,22 @@ function Hand:addCard(card, i)--should return true/false
                 zHandler.Zone_Cycles[1]:setButtons(false)
                 zHandler.Zone_Hands[1]:setButtons_foo(temp_foo_default)
 
+                zHandler.Zone_Hands[1].squ_selectedCard.pos_pixel.x = - 100
+                zHandler.Zone_Hands[1].squ_selectedCard.pos_pixel.y = - 100
                 
             end
             
+            --[BUG] When a card is selected and you draw a card, the new card can be selected instead
+            
             zHandler.Zone_Cycles[1]:setButtons_foo(foo_summon)
 
-            zHandler.Zone_Cycles[1]:setButtons(true)
+            zHandler.Zone_Cycles[1]:setButtons(zHandler.Zone_Cycles[1]:checkButtons({1,2,3,4,5,6,7,8}, zHandler.Zone_Fields[1]), true)
+            
+            -- zHandler.Zone_Hands[1].squ_selectedCard = {pos_pixel= {x=-100, y=-100}}
+            zHandler.Zone_Hands[1].squ_selectedCard.pos_pixel.x = self.x + 35
+            zHandler.Zone_Hands[1].squ_selectedCard.pos_pixel.y = self.y - 12
+            
+            -- zHandler.Zone_Cycles[1]:setButtons({1,2,3,4,5,6,7,8}, false)
             -- print("foo_default() I:" .. self.I)
             -- print("setOtherButtons(foo_inactive)")
         end,
@@ -132,7 +150,12 @@ function Hand:draw()
     end
 
     lg.setColor(1, 1, 1)
-    lg.print("Select channel before clicking the card.\nCurrent selection: Channel " .. self.selectedChannel, W_WIDTH/2, W_HEIGHT-(W_HEIGHT*0.1), 0, 3)
+    lg.rectangle("fill", self.squ_selectedCard.pos_pixel.x, self.squ_selectedCard.pos_pixel.y, self.squ_selectedCard.size_pixel.width, self.squ_selectedCard.size_pixel.hight)
+
+    -- self.squ_selectedCard.pos_pixel.y
+
+    -- lg.setColor(1, 1, 1)
+    -- lg.print("Select channel before clicking the card.\nCurrent selection: Channel " .. self.selectedChannel, W_WIDTH/2, W_HEIGHT-(W_HEIGHT*0.1), 0, 3)
 
 
 end

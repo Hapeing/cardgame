@@ -105,34 +105,27 @@ function Zone:setButtons_foo(foo)
     end
 end
 
-function Zone:setButtons_check()
-    return true
-end
 
 function Zone:setButtons(arr_button, boo_on)
-    if (self:setButtons_check()) then
-        
+     
     
-        boo_on = boo_on or false
-        if (arr_button == true or arr_button == false) then
-
+       boo_on = boo_on or false
+       if (arr_button == true or arr_button == false) then
             for i, btn in pairs(self.Buttons) do
-
-                btn.active = arr_button
-                btn.visable = arr_button
+               --print("here")
+               btn.active = arr_button
+               btn.visable = arr_button
             end
-        else
-            for i, int_btn_I in pairs(arr_button) do
-
-                if (int_btn_I) then
-
-                    self.Buttons[int_btn_I].active = boo_on
-                    self.Buttons[int_btn_I].visable = boo_on
-                end
-            end
-        end
+       else
+           for i, int_btn_I in ipairs(arr_button) do
+               if (int_btn_I) then
+                -- print(int_btn_I)
+                self.Buttons[int_btn_I].active = boo_on
+                self.Buttons[int_btn_I].visable = boo_on
+               end
+           end
+       end
     end
-end
 
 function Zone:visableButtons(arr_button, visable)
     if (visable == nil) then visable = true end

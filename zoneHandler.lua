@@ -25,7 +25,9 @@ function ZoneHandler:new(o)
 
     --fill the deck with creatures
     for i = 1, 30 do
-        o.Zone_Decks[1]:addCard(Creature:new({power = i, cost = i, switchTurn = function(self) end, int_owner = 1}))
+        o.Zone_Decks[1]:addCard(Creature:new({power = i, cost = i, 
+            switchTurn = function(self) self.pos_moveTo = {x=self.arr_grid.x, y = self.arr_grid.y+1} end, --temp
+            int_owner = 1}))
     end
 
     for i = 1, 1 do

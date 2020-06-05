@@ -45,9 +45,9 @@ function L.keypressed(key, scancode, isrepeat)
 
 
     --temp code
-    if (key == '1' or key == '2' or key == '3' or key == '4' or key == '5') then
-        Game.ZoneHandler.Zone_Hands[1].selectedChannel = tonumber(key)
-    end
+    -- if (key == '1' or key == '2' or key == '3' or key == '4' or key == '5') then
+    --     Game.ZoneHandler.Zone_Hands[1].selectedChannel = tonumber(key)
+    -- end
 
 end
 

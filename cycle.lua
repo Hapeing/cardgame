@@ -24,3 +24,26 @@ function Cycle:new(o)
     return o
 end
 
+function Cycle:checkButtons(arr_buttons, field)
+    local arr_buttons = arr_buttons
+
+    local int_size = 0
+
+    for key, value in pairs(arr_buttons) do
+        int_size = int_size + 1
+    end
+
+    for i = int_size, 1, -1 do
+    
+
+
+        if (field.Cards[i][1]) then
+
+            table.remove(arr_buttons, i)
+
+        end
+
+    end
+
+    return arr_buttons
+end

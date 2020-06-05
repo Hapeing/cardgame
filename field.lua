@@ -195,9 +195,6 @@ function Field:new(o)
                     if (o.Cards[i][j]) then
                         if (o.Cards[i][j].pos_moveTo.x ~= 0) then --ignores the creatures that will not move
                             
-                            --Hand???
-                            -- print(o.Cards[i][j])
-                            --changezone()?
                             o:move(o.Cards[i][j].arr_grid, o.Cards[i][j].pos_moveTo)
                         end
                     end
@@ -285,7 +282,7 @@ function Field:addCard(card, channel, row)
     end
 
     self.nrOfCards[channel] = self.nrOfCards[channel] + 1
-    local row = row or self.nrOfCards[channel]
+    local row = row or 1
     --local row = row or 5
 
     -- print("|Card added\n|cost: " .. card.cost)
