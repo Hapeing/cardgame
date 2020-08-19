@@ -2,7 +2,11 @@ require "zoneHandler"
 
 function ZoneHandler:createCards()
 
-    local cards = {}
+    local cards = {{
+        ai = function(self, field)
+            
+        end
+        }}
 
     
 

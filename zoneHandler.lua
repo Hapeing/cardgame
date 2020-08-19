@@ -21,121 +21,23 @@ function ZoneHandler:new(o)
     o.Zone_Hands = {}    
     o.Zone_Hands[1] = Hand:new()
 
+    o.arr_cards = {}
+    o.arr_cards = o.createCards()
 
+
+    for i, crd in pairs(o.arr_cards) do
+        o.Zone_Decks[1]:addCard(crd)
+    end
 
     --fill the deck with creatures
-    for i = 1, 30 do
-        o.Zone_Decks[1]:addCard(Creature:new({power = i, cost = i, 
-            switchTurn = function(self) self.pos_moveTo = {x=self.arr_grid.x, y = self.arr_grid.y+1} end, --temp
-            int_owner = 1}))
-    end
-
-    for i = 1, 1 do
-    --1st ability ############################################################################################################################################################
-    -- o.Zone_Decks[1].Cards[1].name = "Move"
-    -- o.Zone_Decks[1].Cards[1].choises = {{x=-1, y=0},{x=1, y=0},{x=0, y=-1},{x=0, y=1}}
-    -- o.Zone_Decks[1].Cards[1].execute = function(self)
-    --     o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
+    -- for i = 1, 30 do
+    --     o.Zone_Decks[1]:addCard(Creature:new({power = i, cost = i, 
+    --         ai = function(self, field)
+    --             self.pos_moveTo = {x=self.arr_grid.x, y = self.arr_grid.y+1}
+    --             field:getButton(self.pos_moveTo.x, self.pos_moveTo.y).visable = true
+    --         end, 
+    --         int_owner = 1}))
     -- end
-    -- o.Zone_Decks[1].Cards[1].fieldUse = function(self)--this function is to be set in a fieldButton
-    --     local field = o.Zone_Fields[1]
-
-    --     if (field.Cards[self.fieldChannel][self.fieldRow] == nil) then
-
-    --         field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
-            
-    --         --o.Zone_Fields[1]:disableButtons(self.choises)
-    --         o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
-    --         field.player.x = self.fieldChannel
-    --         field.player.y = self.fieldRow
-    --     else
-    --         print("invalid target")
-    --         o.Zone_Hands[1].selectedCard = 0
-    --     end
-    --     --o.Zone_Hands[1].selectedCard = 0
-    -- end
-
-    -- --2nd ability ############################################################################################################################################################
-    -- o.Zone_Decks[1].Cards[2].name = "Stab"
-    -- o.Zone_Decks[1].Cards[2].choises = {{x=-1, y=1 }, {x=0, y=1 },{x=1, y=1 },
-    --                                     {x=-1, y=0 },--[[player]] {x=1, y=0 },
-    --                                     {x=-1, y=-1}, {x=0, y=-1},{x=1, y=-1}}
-    -- o.Zone_Decks[1].Cards[2].execute = function(self)
-    --     o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
-
-    -- end
-    -- o.Zone_Decks[1].Cards[2].fieldUse = function(self)--this function is to be set in a fieldButton
-    --     local field = o.Zone_Fields[1]
-    --     --field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
-        
-    --     --o.Zone_Fields[1]:disableButtons(self.choises)
-    --     --o.Zone_Hands[1].selectedCard = 0
-    --     if (field.Cards[self.fieldChannel][self.fieldRow]) then
-    --         field.Cards[self.fieldChannel][self.fieldRow].health = field.Cards[self.fieldChannel][self.fieldRow].health -1
-
-    --         o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
-    --     else
-    --         print("invalid target")
-    --         o.Zone_Hands[1].selectedCard = 0
-    --     end
-    --     -- self.callback:postExecute(o)
-    -- end
-
-
-    -- --3rd ability ############################################################################################################################################################
-    -- o.Zone_Decks[1].Cards[3].name = "Throw"
-    -- o.Zone_Decks[1].Cards[3].choises = {{x=-2, y=2 }, {x=-1, y=2 }, {x=0, y=2 }, {x=1, y=2 }, {x=2, y=2 },
-    --                                     {x=-2, y=1 }, --[[__]]      --[[__]]     --[[__]]     {x=2, y=1 },
-    --                                     {x=-2, y=0 }, --[[__]]      --[[player]] --[[__]]     {x=2, y=0 },
-    --                                     {x=-2, y=-1}, --[[__]]      --[[__]]     --[[__]]     {x=2, y=-1},
-    --                                     {x=-2, y=-2}, {x=-1, y=-2}, {x=0, y=-2}, {x=1, y=-2}, {x=2, y=-2}}
-    -- o.Zone_Decks[1].Cards[3].execute = function(self)
-    --     o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
-
-    -- end
-    -- o.Zone_Decks[1].Cards[3].fieldUse = function(self)--this function is to be set in a fieldButton
-    --     local field = o.Zone_Fields[1]
-
-        
-    --     --o.Zone_Fields[1]:disableButtons(self.choises)
-    --    -- o.Zone_Hands[1].selectedCard = 0
-    --     if (field.Cards[self.fieldChannel][self.fieldRow]) then
-    --         field.Cards[self.fieldChannel][self.fieldRow].health = field.Cards[self.fieldChannel][self.fieldRow].health -1
-    --         o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
-    --     else
-    --         print("invalid target")
-    --         o.Zone_Hands[1].selectedCard = 0
-    --     end
-    --     --    self.callback:postExecute(o)
-    -- end
-
-
-    -- --4th ability ############################################################################################################################################################
-    -- o.Zone_Decks[1].Cards[4].name = "Dash"
-    -- o.Zone_Decks[1].Cards[4].choises = {{x=0, y=-2},{x=0, y=2}, {x=-2, y=0},{x=2, y=0}}
-    -- o.Zone_Decks[1].Cards[4].execute = function(self)
-    --     o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
-    -- end
-    -- o.Zone_Decks[1].Cards[4].fieldUse = function(self)--this function is to be set in a fieldButton
-    --     local field = o.Zone_Fields[1]
-        
-
-
-    --     --o.Zone_Fields[1]:disableButtons(self.choises)
-    --     if (field.Cards[self.fieldChannel][self.fieldRow] == nil) then
-    --         field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
-
-    --         o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
-    --         field.player.x = self.fieldChannel
-    --         field.player.y = self.fieldRow
-    --     else
-    --         print("invalid target")
-    --         o.Zone_Hands[1].selectedCard = 0
-    --     end
-    --     --o.Zone_Hands[1].selectedCard = 0
-    --     -- self.callback:postExecute(o)
-    -- end
-    end
 
 
     --draw cards to hand

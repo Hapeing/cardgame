@@ -19,7 +19,7 @@ function Monsters:getBishop(field)
 
     local bishop = {
         cost = 2,
-        ai = function(self)
+        ai = function(self, field)
             local pos_closestEnemy = Monsters:findClosestEnemy(field)
             
 

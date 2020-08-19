@@ -21,6 +21,7 @@ function Creature:new(o)
 end
 
 
+
 function Creature:switchTurn(field)
     if (self.health <= 0) then
 
@@ -40,7 +41,11 @@ end
 
 function Creature:ai(field)
 
-    field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
+    
+        
+   
+
+    --field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
 end
 
 function Creature:takeDamage(int_damage)

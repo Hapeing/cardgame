@@ -88,6 +88,7 @@ function Hand:addCard(card, i)--should return true/false
                 zHandler:changeZone(zHandler.Zone_Hands[1], zHandler.Zone_Fields[1], int_hand_index, self.int_channel)
                 zHandler.Zone_Cycles[1]:setButtons(false)
                 zHandler.Zone_Hands[1]:setButtons_foo(temp_foo_default)
+                zHandler.Zone_Fields[1]:aiUpdate()
 
                 zHandler.Zone_Hands[1].squ_selectedCard.pos_pixel.x = - 100
                 zHandler.Zone_Hands[1].squ_selectedCard.pos_pixel.y = - 100

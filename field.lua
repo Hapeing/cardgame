@@ -30,24 +30,9 @@ function Field:new(o)
                 active = false,
                 visable = false,
                 use = nil,
-                move = function(self, field, I)
-                    --print("button x y: " .. self.fieldChannel .. " " .. self.fieldRow)
-                    --print("selected x y: " .. field.selectedSquare.x .. " " .. field.selectedSquare.y)
-
-                    --print("__start button:move()")
-                    -- print("self.channel: ")
-                    -- print(self.fieldChannel)
-                    --print("selectedSqare x & y:")
-                    --print(field.selectedSquare.x)
-                    --print(field.selectedSquare.y)
-                    
+                move = function(self, field, I)--not in use
 
                     field:addCard(field:removeCard(field.selectedSquare.x, field.selectedSquare.y),self.fieldChannel, self.fieldRow)
-                    
-
-
-                    -- field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
-
 
 
                     local toDeactivate = {
@@ -57,8 +42,7 @@ function Field:new(o)
                         field:getButtonIndex(field.player.x,   field.player.y+1),
                         field:getButtonIndex(field.player.x,   field.player.y-1)}
 
-                        --field.Buttons[field:getButtonIndex(field.selectedSquare.x, field.selectedSquare.y)].active = false
-                        --field.Buttons[field:getButtonIndex(field.selectedSquare.x, field.selectedSquare.y)].visable = false
+
                         for i=1, 5 do
                             if (toDeactivate[i] and toDeactivate[i] ~= field:getButtonIndex(self.fieldChannel, self.fieldRow)) then
                                 field.Buttons[toDeactivate[i]]:setUse("select", false, false,
@@ -71,8 +55,6 @@ function Field:new(o)
 
                     field.selectedSquare.x = nil
                     field.selectedSquare.y = nil
-
-                    --print("__end button:move()")
                 end,
                 released = function(self, zHandler, I)
                     --local field = zHandler.Zone_Fields[1]
@@ -185,7 +167,7 @@ function Field:new(o)
                 for j = 1, o.nrOfRows do
                     if (o.Cards[i][j]) then
                         if (o.Cards[i][j].boo_hasSwitched == false) then--prevent creatures from moving twice in a turn
-                            o.Cards[i][j]:switchTurn(o)
+                            --o.Cards[i][j]:switchTurn(o)
                         end
                     end
                 end
@@ -196,6 +178,7 @@ function Field:new(o)
                         if (o.Cards[i][j].pos_moveTo.x ~= 0) then --ignores the creatures that will not move
                             
                             o:move(o.Cards[i][j].arr_grid, o.Cards[i][j].pos_moveTo)
+                            
                         end
                     end
                 end
@@ -205,7 +188,7 @@ function Field:new(o)
                 for j = 1, o.nrOfRows do
                     if (o.Cards[i][j]) then
 
-
+                        o.Cards[i][j]:ai(o)
                         o.Cards[i][j].boo_hasSwitched = false--reset the check
                     end
                 end
@@ -262,12 +245,26 @@ function Field:disableButtons(button_arr)
 end
 
 function Field:visableButtons(button_arr, visable)
-    if (visable == nil) then visable = true end --ska toggla visable
+    if (visable == nil) then visable = true end
     if (button_arr == nil) then print("-ERROR: button_arr = nil") end
 
     for i, btn in pairs(button_arr) do
         self.Buttons[self:getButtonIndex(btn.x + self.player.x, btn.y + self.player.y)].visable = visable
     end
+end
+
+function Field:getButton(int_x, int_y)
+    return self.Buttons[self:getButtonIndex(int_x, int_y)]
+
+end
+
+function Field:aiUpdate()
+    for i,channel in pairs(self.Cards) do
+        for j, crd in pairs(channel) do
+            crd:ai(self)
+        end
+    end
+
 end
 
 function Field:addCard(card, channel, row)
@@ -317,7 +314,7 @@ end
 function Field:getButtonIndex(channel, row)
 
     local result = channel * self.nrOfRows - (self.nrOfRows - row)
-    if (result < 1 or result > self.nrOfChannels*self.nrOfRows)then
+    if (result < 1 or result > self.nrOfChannels*self.nrOfRows) then
         result = false
     end
     return result
