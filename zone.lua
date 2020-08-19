@@ -49,13 +49,13 @@ end
 
 function Zone:update(game, dt)--bug: press and hold one button, move to another button on another zone, and release. it triggers the second button
 
-    if (love.mouse.isDown(1) and self.I_btnPressed == 0) then
+    if (L.mouse.isDown(1) and self.I_btnPressed == 0) then
         
         for i, btn in ipairs(self.Buttons) do 
-            if (btn.x < love.mouse.getX() and
-                btn.y < love.mouse.getY() and
-                btn.x + btn.width > love.mouse.getX() and
-                btn.y + btn.hight > love.mouse.getY() and
+            if (btn.x < L.mouse.getX() and
+                btn.y < L.mouse.getY() and
+                btn.x + btn.width > L.mouse.getX() and
+                btn.y + btn.hight > L.mouse.getY() and
                 btn.active) then --if mouse is pressed on a button then
 
                     
@@ -69,12 +69,12 @@ function Zone:update(game, dt)--bug: press and hold one button, move to another 
 
         --Game.mousePressed = true
 
-    elseif (not love.mouse.isDown(1) and self.I_btnPressed ~= 0) then --if mouse is released and earlier pressed a button then
+    elseif (not L.mouse.isDown(1) and self.I_btnPressed ~= 0) then --if mouse is released and earlier pressed a button then
         
-        if (self.Buttons[self.I_btnPressed].x < love.mouse.getX() and
-        self.Buttons[self.I_btnPressed].y < love.mouse.getY() and
-        self.Buttons[self.I_btnPressed].x + self.Buttons[self.I_btnPressed].width > love.mouse.getX() and
-        self.Buttons[self.I_btnPressed].y + self.Buttons[self.I_btnPressed].hight > love.mouse.getY()) then --if the mouse is still on the pressed button then
+        if (self.Buttons[self.I_btnPressed].x < L.mouse.getX() and
+        self.Buttons[self.I_btnPressed].y < L.mouse.getY() and
+        self.Buttons[self.I_btnPressed].x + self.Buttons[self.I_btnPressed].width > L.mouse.getX() and
+        self.Buttons[self.I_btnPressed].y + self.Buttons[self.I_btnPressed].hight > L.mouse.getY()) then --if the mouse is still on the pressed button then
                 
                 
             --print("Release: " .. self.I_btnPressed)
@@ -84,10 +84,10 @@ function Zone:update(game, dt)--bug: press and hold one button, move to another 
 
     else
         for i, btn in pairs(self.Buttons) do 
-            if (btn.x < love.mouse.getX() and
-                btn.y < love.mouse.getY() and
-                btn.x + btn.width > love.mouse.getX() and
-                btn.y + btn.hight > love.mouse.getY() and
+            if (btn.x < L.mouse.getX() and
+                btn.y < L.mouse.getY() and
+                btn.x + btn.width > L.mouse.getX() and
+                btn.y + btn.hight > L.mouse.getY() and
                 btn.active) then
                     btn:hover()
                 else

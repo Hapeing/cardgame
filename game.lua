@@ -28,6 +28,10 @@ function Game:new(o)
     return o
 end
 
+function Game:unpackPos(pos_)
+    return pos_.x, pos_.y
+end
+
 function Game:update(dt)
 
     --self.MenuHandler:update(self, dt)

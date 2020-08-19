@@ -48,7 +48,7 @@ function ZoneHandler:new(o)
             field.player.y = self.fieldRow
         else
             print("invalid target")
-            o.Zone_Hands[1].selectedCard = 0
+            --o.Zone_Hands[1].selectedCard = 0
         end
         --o.Zone_Hands[1].selectedCard = 0
     end
@@ -74,7 +74,7 @@ function ZoneHandler:new(o)
             o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
         else
             print("invalid target")
-            o.Zone_Hands[1].selectedCard = 0
+            --o.Zone_Hands[1].selectedCard = 0
         end
         -- self.callback:postExecute(o)
     end
@@ -102,7 +102,7 @@ function ZoneHandler:new(o)
             o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
         else
             print("invalid target")
-            o.Zone_Hands[1].selectedCard = 0
+            --o.Zone_Hands[1].selectedCard = 0
         end
         --    self.callback:postExecute(o)
     end
@@ -128,7 +128,7 @@ function ZoneHandler:new(o)
             field.player.y = self.fieldRow
         else
             print("invalid target")
-            o.Zone_Hands[1].selectedCard = 0
+            --o.Zone_Hands[1].selectedCard = 0
         end
         --o.Zone_Hands[1].selectedCard = 0
         -- self.callback:postExecute(o)

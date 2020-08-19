@@ -251,6 +251,33 @@ function Field:new(o)
     return o
 end
 
+function Field:move(pos_from, pos_to)
+
+    if (pos_from.x == nil) then
+        pos_from.x = pos_from[1]
+    end
+    if (pos_from.y == nil) then
+        pos_from.y = pos_from[2]
+    end
+    if (pos_to.x == nil) then
+        pos_to.x = pos_to[1]
+    end
+    if (pos_to.y == nil) then
+        pos_to.y = pos_to[2]
+    end
+
+    --check if target square is valid
+    if (pos_to.x < 1 or pos_to.y > self.nrOfChannels or self.Cards[pos_to.x][pos_to.y] ~= nil) then
+        return false
+    end
+
+    local crd = self:removeCard(pos_from)
+
+    self:addCard(crd, pos_to)
+
+    return true
+end
+
 function Field:enableButtons(button_arr, fieldUse)
     local arr_result = {}
     for i, btn in pairs(button_arr) do
@@ -289,7 +316,7 @@ function Field:visableButtons(button_arr, visable)
     end
 end
 
-function Field:addCard(card, channel, row)
+function Field:addCard(card, channel, row) --channel can be pos_
 
     --print("__start Field:addCard()")
 
@@ -298,6 +325,10 @@ function Field:addCard(card, channel, row)
         print("-channel: " .. channel .. "\n-row: " .. row)
         --print("__end Field:addCard()")
         return false
+    end
+    if (type(channel) == "table") then
+        row = channel.y
+        channel = channel.x
     end
 
     self.nrOfCards[channel] = self.nrOfCards[channel] + 1
@@ -343,6 +374,11 @@ function Field:getButtonIndex(channel, row)
 end
 
 function Field:removeCard(channel, row)--returns card
+
+    if (type(channel) == "table") then
+        row = channel.y
+        channel = channel.x
+    end
 
     self.nrOfCards[channel] = self.nrOfCards[channel] - 1
 

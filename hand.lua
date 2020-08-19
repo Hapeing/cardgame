@@ -56,7 +56,7 @@ function Hand:addCard(card, i)--should return true/false
             --yes -> do nothing
             --no:
             --select self
-            hand = zHandler.Zone_Hands[1]
+            local hand = zHandler.Zone_Hands[1]
 
             -- if (hand.selectedCard == self.I) then
             --     hand.selectedCard = 0

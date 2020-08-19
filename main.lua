@@ -1,20 +1,22 @@
 require "game"
 
+L = love
 
-function love.load()
+
+function L.load()
 
     --screen = {}
     --screen.x = 1600
     --screen.y = 1000
 
-    --love.window.setMode(screen.x, screen.y)
+    --L.window.setMode(screen.x, screen.y)
 
-    lg = love.graphics
-    lm = love.mouse
+    lg = L.graphics
+    lm = L.mouse
 
-    love.window.setFullscreen(true, "desktop")
+    L.window.setFullscreen(true, "desktop")
 
-    W_WIDTH, W_HEIGHT, FLAGS = love.window.getMode()
+    W_WIDTH, W_HEIGHT, FLAGS = L.window.getMode()
 
     
     print(W_WIDTH .." ".. W_HEIGHT)
@@ -24,21 +26,21 @@ function love.load()
 
 end
 
-function love.update(dt)
+function L.update(dt)
 
-    -- if love.keyboard.isDown("escape") then
-    --     love.window.close()
-    --     love.event.quit(0)
+    -- if L.keyboard.isDown("escape") then
+    --     L.window.close()
+    --     L.event.quit(0)
     -- end
 
     Game:update(dt)
 
 end
 
-function love.keypressed(key, scancode, isrepeat)
+function L.keypressed(key, scancode, isrepeat)
     if (key == "escape") then
-        love.window.close()
-        love.event.quit(0)
+        L.window.close()
+        L.event.quit(0)
     end
 
 
@@ -49,11 +51,11 @@ function love.keypressed(key, scancode, isrepeat)
 
 end
 
-function love.quit()
+function L.quit()
     print("Bye!")
 end
 
-function love.draw()
+function L.draw()
 
     Game:draw()
 

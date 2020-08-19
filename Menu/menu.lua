@@ -21,16 +21,16 @@ end
 
 function Menu:update(Game, dt)
 
-    if (love.mouse.isDown(1) and not (self.mousePressed)) then
+    if (L.mouse.isDown(1) and not (self.mousePressed)) then
         
         
 
         for i, btn in ipairs(self.Buttons) do 
             print(self.Buttons[1].x)
-            if (btn.x < love.mouse.getX() and
-                btn.y < love.mouse.getY() and
-                btn.x + btn.width > love.mouse.getX() and
-                btn.y + btn.hight > love.mouse.getY()) then  --if mouse is pressed on a button then
+            if (btn.x < L.mouse.getX() and
+                btn.y < L.mouse.getY() and
+                btn.x + btn.width > L.mouse.getX() and
+                btn.y + btn.hight > L.mouse.getY()) then  --if mouse is pressed on a button then
 
                     
                 I_btnPressed = i
@@ -43,13 +43,13 @@ function Menu:update(Game, dt)
 
         self.mousePressed = true
 
-    elseif ((self.mousePressed) and not love.mouse.isDown(1) ) then
+    elseif ((self.mousePressed) and not L.mouse.isDown(1) ) then
 
         if (I_btnPressed ~= 0) then --if mouse is released and earlier pressed a button then
-            if (self.Buttons[I_btnPressed].x < love.mouse.getX() and
-            self.Buttons[I_btnPressed].y < love.mouse.getY() and
-            self.Buttons[I_btnPressed].x + self.Buttons[I_btnPressed].width > love.mouse.getX() and
-            self.Buttons[I_btnPressed].y + self.Buttons[I_btnPressed].hight > love.mouse.getY()) then --if the mouse is still on the pressed button then
+            if (self.Buttons[I_btnPressed].x < L.mouse.getX() and
+            self.Buttons[I_btnPressed].y < L.mouse.getY() and
+            self.Buttons[I_btnPressed].x + self.Buttons[I_btnPressed].width > L.mouse.getX() and
+            self.Buttons[I_btnPressed].y + self.Buttons[I_btnPressed].hight > L.mouse.getY()) then --if the mouse is still on the pressed button then
                 
                 
                 print("Release: " .. I_btnPressed)
@@ -64,7 +64,7 @@ end
 
 function Menu:addButton(x, y, width, hight)-- cannot add more than one
 
-    local o = Button:new(o)
+    local o = Button:new()
 
     o.x = x
     o.y = y

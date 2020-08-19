@@ -8,7 +8,8 @@ function Monsters:getPawn(field)
             self.arr_grid.x+1 == field.player.x and self.arr_grid.y-1 == field.player.y) then
                 field.Cards[field.player.x][field.player.y]:takeDamage(1)
             else
-                field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y-1)
+                field:move(self.arr_grid, {self.arr_grid.x, self.arr_grid.y - 1})
+                --field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y-1)
             end
         end}
 
@@ -26,16 +27,20 @@ function Monsters:getBishop(field)
             self.arr_grid.x+1 == field.player.x and self.arr_grid.y+1 == field.player.y) then
                 field.Cards[field.player.x][field.player.y]:takeDamage(1)
             elseif (self.arr_grid.x <= field.player.x and self.arr_grid.y <= field.player.y) then
-                field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x +1, self.arr_grid.y+1)
+                field:move(self.arr_grid, {self.arr_grid.x +1, self.arr_grid.y +1})
+                -- field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x +1, self.arr_grid.y+1)
             
             elseif (self.arr_grid.x >= field.player.x and self.arr_grid.y >= field.player.y) then
-                field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x -1, self.arr_grid.y-1)
+                field:move(self.arr_grid, {self.arr_grid.x -1, self.arr_grid.y -1})
+                -- field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x -1, self.arr_grid.y-1)
             
             elseif (self.arr_grid.x >= field.player.x and self.arr_grid.y <= field.player.y) then
-                field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x -1, self.arr_grid.y+1)
+                field:move(self.arr_grid, {self.arr_grid.x -1, self.arr_grid.y +1})
+                -- field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x -1, self.arr_grid.y+1)
             
             elseif (self.arr_grid.x <= field.player.x and self.arr_grid.y >= field.player.y) then
-                field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x +1, self.arr_grid.y-1)
+                field:move(self.arr_grid, {self.arr_grid.x +1, self.arr_grid.y -1})
+                -- field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x +1, self.arr_grid.y-1)
             end
         end
         }
