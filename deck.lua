@@ -2,7 +2,7 @@ require "zone"
 
 Deck = Zone:new()
 
-function Deck:new()
+function Deck:new(o)
 
     local o = o or {}
     setmetatable(o, self)

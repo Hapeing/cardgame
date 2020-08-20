@@ -2,7 +2,7 @@ require "zone"
 
 Cycle = Zone:new()
 
-function Cycle:new()
+function Cycle:new(o)
 
     local o = o or {}
     setmetatable(o, self)

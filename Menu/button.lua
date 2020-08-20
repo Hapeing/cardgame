@@ -36,9 +36,57 @@ function Button:new(o)
     if (o.active == nil) then
         o.active = true
     end
+
+    o.arr_imgScale = {}
+    o.arr_imgScale.x = o.arr_imgScale.x or 0.1
+    o.arr_imgScale.y = o.arr_imgScale.y or 0.1
+
+    o.num_rotation = o.num_rotation or 0
+
+    if (type(o.img_current) == "string")then
+        o.img_current = lg.newImage(o.img_current)
+    elseif (o.img_current == nil) then
+        o.img_current = lg.newImage("s1.png")
+    else
+        o.img_current = o.img_current
+    end
+
+    if (type(o.img_atk) == "string")then
+        o.img_atk = lg.newImage(o.img_atk)
+    elseif (o.img_atk == nil) then
+        o.img_atk = lg.newImage("Tex_badge_33.png")
+    else
+        o.img_atk = o.img_atk
+    end
+
+    -- if (type(o.img_move) == "string")then
+    --     o.img_move = lg.newImage(o.img_move)
+    -- elseif (o.img_move == nil) then
+    --     o.img_move = lg.newImage("boots.png")
+    -- else
+    --     o.img_move = o.img_move
+    -- end
     
     
     return o
+end
+
+function Button:changeImgFromFile(str_fimeName)
+    
+    self.img_img = lg.newImage(str_fimeName)
+
+end
+
+function Button:changeImgString(str_btnType)
+
+    if (str_btnType == "atk") then
+        
+        self.img_current = self.img_atk
+
+        return true
+    end
+    
+    return false
 end
 
 function Button:pressed()
@@ -75,6 +123,8 @@ function Button:draw(scale)
         --inactive when not hover and mouse pressed
 
         lg.setColor(self.r, self.g, self.b)
+
         lg.rectangle("fill", self.x, self.y, self.width * scale, self.hight * scale)
+        lg.draw(self.img_current, self.x, self.y, self.num_rotation, self.arr_imgScale.x, self.arr_imgScale.y)
     end
 end

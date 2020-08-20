@@ -25,23 +25,26 @@ function Game:new(o)
 
     o.playerID = 1
 
-    return o
-end
+    -- o.frame = 0
 
-function Game:unpackPos(pos_)
-    return pos_.x, pos_.y
+    --o.mySquare = lg.newImage("square.png")
+
+    return o
 end
 
 function Game:update(dt)
 
     --self.MenuHandler:update(self, dt)
     self.ZoneHandler:update(self, dt)
+    -- self.frame = self.frame + 1
     
 end
 
 function Game:draw()
 
     self.ZoneHandler:draw()
+    -- lg.setColor(1,1,1,255)
+    -- lg.draw(self.mySquare, 50, 50)
     --self.MenuHandler:draw()
 
 end

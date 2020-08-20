@@ -32,7 +32,7 @@ function ZoneHandler:new(o)
     --1st ability ############################################################################################################################################################
     o.Zone_Decks[1].Cards[1].name = "Move"
     o.Zone_Decks[1].Cards[1].choises = {{x=-1, y=0},{x=1, y=0},{x=0, y=-1},{x=0, y=1}}
-    o.Zone_Decks[1].Cards[1].execute = function(self)
+    o.Zone_Decks[1].Cards[1].execute = function(self)-- not used???
         o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
     end
     o.Zone_Decks[1].Cards[1].fieldUse = function(self)--this function is to be set in a fieldButton
@@ -112,7 +112,8 @@ function ZoneHandler:new(o)
     o.Zone_Decks[1].Cards[4].name = "Dash"
     o.Zone_Decks[1].Cards[4].choises = {{x=0, y=-2},{x=0, y=2}, {x=-2, y=0},{x=2, y=0}}
     o.Zone_Decks[1].Cards[4].execute = function(self)
-        o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse)
+        o.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse, "Tex_badge_33.png")
+        print("here")
     end
     o.Zone_Decks[1].Cards[4].fieldUse = function(self)--this function is to be set in a fieldButton
         local field = o.Zone_Fields[1]

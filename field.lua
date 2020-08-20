@@ -18,11 +18,16 @@ function Field:new(o)
     o.selectedSquare = {x=nil, y=nil}
     o.player = {x=3, y=1}
 
+    local img_default = lg.newImage("s1.png")
+    local img_attack = lg.newImage("Tex_badge_33.png")
+
     for i = 1, o.nrOfChannels do
         o.nrOfCards[i] = 0
         o.Cards[i] = {}--each array is its own channel from left to right
         for j = 1, o.nrOfRows do
             o:addButton({
+                img_current = img_default,
+                img_atk = img_attack,
                 x = 100 * i,
                 y = 700 - 100 * j,
                 fieldChannel = i,
@@ -74,7 +79,7 @@ function Field:new(o)
 
                     --local I = self.fieldChannel*field.nrOfRows-(field.nrOfRows-self.fieldRow)
 
-                    self:use(zHandler, I)
+                    self:use(zHandler)--, I)
 
                     self.r = self.r_org
                     self.g = self.g_org
@@ -172,6 +177,9 @@ function Field:new(o)
         end
     end
 
+    o.img_square = lg.newImage("square.png")
+
+
 
     o:addButton({x= W_WIDTH * 0.01, y=W_HEIGHT * 0.75,
         hight=128, width=128,
@@ -266,6 +274,7 @@ function Field:move(pos_from, pos_to)
         pos_to.y = pos_to[2]
     end
 
+    --might be a bug here
     --check if target square is valid
     if (pos_to.x < 1 or pos_to.y > self.nrOfChannels or self.Cards[pos_to.x][pos_to.y] ~= nil) then
         return false
@@ -278,11 +287,15 @@ function Field:move(pos_from, pos_to)
     return true
 end
 
-function Field:enableButtons(button_arr, fieldUse)
+function Field:enableButtons(button_arr, fieldUse, img_new)--img_new is optional
     local arr_result = {}
     for i, btn in pairs(button_arr) do
         local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
         if (int_btnIndex) then
+            
+            if(img_new ~= nil) then
+                self.Buttons[int_btnIndex]:changeImgString(img_new)
+            end
             self.Buttons[int_btnIndex].use = fieldUse
 
             self.Buttons[int_btnIndex].active = true
@@ -308,7 +321,7 @@ function Field:disableButtons(button_arr)
 end
 
 function Field:visableButtons(button_arr, visable)
-    if (visable == nil) then visable = true end --ska toggla visable
+    if (visable == nil) then visable = true end
     if (button_arr == nil) then print("+ERROR: button_arr = nil") end
 
     for i, btn in pairs(button_arr) do
@@ -320,16 +333,18 @@ function Field:addCard(card, channel, row) --channel can be pos_
 
     --print("__start Field:addCard()")
 
+    if (type(channel) == "table") then
+        row = channel.y
+        channel = channel.x
+    end
+
     if (card == nil) then
         print("-ERROR: Cannot add card to field: card = nil")
         print("-channel: " .. channel .. "\n-row: " .. row)
         --print("__end Field:addCard()")
         return false
     end
-    if (type(channel) == "table") then
-        row = channel.y
-        channel = channel.x
-    end
+    
 
     self.nrOfCards[channel] = self.nrOfCards[channel] + 1
     local row = row or self.nrOfCards[channel]
@@ -344,20 +359,23 @@ function Field:addCard(card, channel, row) --channel can be pos_
     self.Cards[channel][row].arr_grid = {x=channel, y=row}
 
     local I = self:getButtonIndex(channel, row)
+    
+    if (I ~= false) then
 
-    self.Buttons[I].active = false
-    self.Buttons[I].visable = false
-    self.Buttons[I].use = self.Buttons[I].select
+        self.Buttons[I].active = false
+        self.Buttons[I].visable = false
+        self.Buttons[I].use = self.Buttons[I].select
 
 
 
-    self.Buttons[I].r_org = 1
-    self.Buttons[I].g_org = 1
-    self.Buttons[I].b_org = 1
-    self.Buttons[I].r = 1
-    self.Buttons[I].g = 1
-    self.Buttons[I].b = 1
-
+        self.Buttons[I].r_org = 1
+        self.Buttons[I].g_org = 1
+        self.Buttons[I].b_org = 1
+        self.Buttons[I].r = 1
+        self.Buttons[I].g = 1
+        self.Buttons[I].b = 1
+    
+    end
     --print("__end of addCard")
 
     return true
@@ -401,9 +419,11 @@ function Field:draw()
                 lg.setColor(0.2, 0.2, 1)
                 lg.rectangle("fill", W_WIDTH*0.8 + i*25 -3, W_HEIGHT*0.9 - j*25 -3, 20, 20)
                 lg.rectangle("fill", 100 * i, 700 - 100 * j, 80, 80)
+                lg.setColor(1,1,1,255)
+                lg.draw(self.img_square, 100 * i, 700 - 100 * j)
 
 
-                if (j == 7 )then
+                if (j == 7 )then --debug line
                     lg.setColor(1, 1, 1)
                     lg.rectangle("fill", W_WIDTH*0.8 -6, W_HEIGHT*0.9 - j*25 -6, 250, 5)
                 end
