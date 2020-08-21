@@ -19,7 +19,8 @@ function Field:new(o)
     o.player = {x=3, y=1}
 
     local img_default = lg.newImage("s1.png")
-    local img_attack = lg.newImage("Tex_badge_33.png")
+    local img_attack = lg.newImage("GameToken_8_1.png")
+    local img_move = lg.newImage("GameToken_2_1.png")
 
     for i = 1, o.nrOfChannels do
         o.nrOfCards[i] = 0
@@ -28,6 +29,7 @@ function Field:new(o)
             o:addButton({
                 img_current = img_default,
                 img_atk = img_attack,
+                img_mov = img_move,
                 x = 100 * i,
                 y = 700 - 100 * j,
                 fieldChannel = i,
@@ -86,64 +88,6 @@ function Field:new(o)
                     self.b = self.b_org
                 end,
                 select = function(self, zHandler, I)
-
-
-
-                    --zHandler.Zone_Hands[1].target.x = self.fieldChannel
-                    --zHandler.Zone_Hands[1].target.y = self.fieldRow
-
-                    --is self selected?
-                    --yes -> deselect self
-                    --no:
-                    --is anything selected?
-                    --yes -> do nothing
-                    --no:
-                    --select self
-                    --[[
-
-                    local validMoves = {
-                        field:getButtonIndex(self.fieldChannel+1, self.fieldRow),
-                        field:getButtonIndex(self.fieldChannel-1, self.fieldRow),
-                        field:getButtonIndex(self.fieldChannel, self.fieldRow+1),
-                        field:getButtonIndex(self.fieldChannel, self.fieldRow-1)}
-
-                    if(field.selectedSquare.x == self.fieldChannel and
-                    field.selectedSquare.y == self.fieldRow) then
-
-
-                        for i=1, 4 do
-                            if (validMoves[i]) then
-                                field.Buttons[validMoves[i] ]:setUse("select", false, false,
-                                {r=1,g=1,b=1}, {r=1,g=1,b=1})
-                            end
-                        end
-
-
-                        field.selectedSquare.x = nil
-                        field.selectedSquare.y = nil
-
-
-                    elseif(field.selectedSquare.x ~= nil and
-                    field.selectedSquare.y ~= nil) then
-                        print("invalid button action")
-                    else
-
-                        field.selectedSquare.x = self.fieldChannel
-                        field.selectedSquare.y = self.fieldRow
-
-                        for i=1, 4 do
-                            if (validMoves[i]) then
-                                field.Buttons[validMoves[i] ]:setUse("move", true, true,
-                                {r=0.5,g=0,b=0}, {r=0.5,g=0,b=0})
-                            end
-                        end
-
-
-
-
-                    end--]]
-
-
                 end,
                 deselect = function(self)
 
@@ -439,7 +383,7 @@ function Field:draw()
         end
     end
 
-    self:drawButtons()
+    self:drawButtons(0.05)
 
     for i, row in pairs(self.Cards) do
         for j, card in pairs(row) do

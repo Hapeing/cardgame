@@ -11,6 +11,7 @@ function Boost:new(o)
     o.cooldown = o.cooldown or 2
     o.cooling = o.cooling or 0
     o.name = "._."
+    o.str_type = "default"
 
     return o
 end
@@ -48,7 +49,7 @@ function Boost:checkExecute(zHandler, int_index)
     else
         print("Activate " .. int_index)
         zHandler.Zone_Hands[1].selectedCard = int_index
-        for i, btn in pairs(zHandler.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse, "atk")) do
+        for i, btn in pairs(zHandler.Zone_Fields[1]:enableButtons(self.choises, self.fieldUse, self.str_type)) do
             btn.int_callback = self.power
         end
 

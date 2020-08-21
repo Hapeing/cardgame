@@ -50,22 +50,23 @@ function Button:new(o)
     else
         o.img_current = o.img_current
     end
+    o.img_default = o.img_default or o.img_current
 
     if (type(o.img_atk) == "string")then
         o.img_atk = lg.newImage(o.img_atk)
     elseif (o.img_atk == nil) then
-        o.img_atk = lg.newImage("Tex_badge_33.png")
+        o.img_atk = lg.newImage("GameToken_8_1.png")
     else
         o.img_atk = o.img_atk
     end
 
-    -- if (type(o.img_move) == "string")then
-    --     o.img_move = lg.newImage(o.img_move)
-    -- elseif (o.img_move == nil) then
-    --     o.img_move = lg.newImage("boots.png")
-    -- else
-    --     o.img_move = o.img_move
-    -- end
+    if (type(o.img_mov) == "string")then
+        o.img_mov = lg.newImage(o.img_mov)
+    elseif (o.img_mov == nil) then
+        o.img_mov = lg.newImage("GameToken_2_1.png")
+    else
+        o.img_mov = o.img_mov
+    end
     
     
     return o
@@ -82,6 +83,10 @@ function Button:changeImgString(str_btnType)
     if (str_btnType == "atk") then
         
         self.img_current = self.img_atk
+
+        return true
+    elseif (str_btnType == "mov") then
+        self.img_current = self.img_mov
 
         return true
     end
@@ -125,6 +130,6 @@ function Button:draw(scale)
         lg.setColor(self.r, self.g, self.b)
 
         lg.rectangle("fill", self.x, self.y, self.width * scale, self.hight * scale)
-        lg.draw(self.img_current, self.x, self.y, self.num_rotation, self.arr_imgScale.x, self.arr_imgScale.y)
+        lg.draw(self.img_current, self.x, self.y, self.num_rotation, scale, scale)
     end
 end
