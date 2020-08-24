@@ -15,8 +15,8 @@ function Hand:new(o)
     o.cardSelectFrame = 5
 
     o.nrOfCards = 0
-    o.firstCardX = 100
-    o.cardsY = 800
+    o.firstCardX = 500
+    o.cardsY = 830
 
     o.cardSpace = 50
 

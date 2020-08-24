@@ -18,6 +18,13 @@ function Field:new(o)
     o.selectedSquare = {x=nil, y=nil}
     o.player = {x=3, y=1}
 
+    --for drawing
+    o.pos_firstSquare = {}
+    o.pos_firstSquare.x = W_WIDTH*0.2
+    o.pos_firstSquare.y = W_HEIGHT*0.74
+    o.num_distanceSquare = 10
+    o.num_widthSquare = 100
+
     local img_default = lg.newImage("s1.png")
     local img_attack = lg.newImage("GameToken_8_1.png")
     local img_move = lg.newImage("GameToken_2_1.png")
@@ -30,24 +37,14 @@ function Field:new(o)
                 img_current = img_default,
                 img_atk = img_attack,
                 img_mov = img_move,
-                x = 100 * i,
-                y = 700 - 100 * j,
+                x = o.pos_firstSquare.x + (o.num_widthSquare + o.num_distanceSquare) * i,
+                y = o.pos_firstSquare.y - (o.num_widthSquare + o.num_distanceSquare) * j,
                 fieldChannel = i,
                 fieldRow = j,
                 active = false,
                 visable = false,
                 use = nil,
                 move = function(self, field, I)
-                    --print("button x y: " .. self.fieldChannel .. " " .. self.fieldRow)
-                    --print("selected x y: " .. field.selectedSquare.x .. " " .. field.selectedSquare.y)
-
-                    --print("__start button:move()")
-                    -- print("self.channel: ")
-                    -- print(self.fieldChannel)
-                    --print("selectedSqare x & y:")
-                    --print(field.selectedSquare.x)
-                    --print(field.selectedSquare.y)
-
 
                     field:addCard(field:removeCard(field.player.x, field.player.y),self.fieldChannel, self.fieldRow)
 
@@ -239,6 +236,22 @@ function Field:enableButtons(button_arr, fieldUse, img_new)--img_new is optional
             
             if(img_new ~= nil) then
                 self.Buttons[int_btnIndex]:changeImgString(img_new)
+
+                -- if (self.Cards[self.player.x + btn.x][self.player.y + btn.y] ~= nil) then
+                    
+                --     if (img_new == "atk") then
+                --         self.Buttons[int_btnIndex].r_org = self.Buttons[int_btnIndex].r_hov
+                --         self.Buttons[int_btnIndex].g_org = self.Buttons[int_btnIndex].g_hov
+                --         self.Buttons[int_btnIndex].b_org = self.Buttons[int_btnIndex].b_hov
+                --     end
+                -- else
+                --     if (img_new == "mov") then
+                --         self.Buttons[int_btnIndex].r_org = self.Buttons[int_btnIndex].r_hov
+                --         self.Buttons[int_btnIndex].g_org = self.Buttons[int_btnIndex].g_hov
+                --         self.Buttons[int_btnIndex].b_org = self.Buttons[int_btnIndex].b_hov
+                --     end
+                -- end
+                
             end
             self.Buttons[int_btnIndex].use = fieldUse
 
@@ -361,18 +374,21 @@ function Field:draw()
             if (self.Cards[i]) then
 
                 lg.setColor(0.2, 0.2, 1)
-                lg.rectangle("fill", W_WIDTH*0.8 + i*25 -3, W_HEIGHT*0.9 - j*25 -3, 20, 20)
-                lg.rectangle("fill", 100 * i, 700 - 100 * j, 80, 80)
+                lg.rectangle("fill", W_WIDTH*0.8 + i*25 -3, W_HEIGHT*0.9 - j*25 -3, 20, 20) --debug field
+                --lg.rectangle("fill", 100 * i, 700 - 100 * j, 80, 80)
                 lg.setColor(1,1,1,255)
-                lg.draw(self.img_square, 100 * i, 700 - 100 * j)
+                if (j <= 7) then
+                    lg.draw(self.img_square, self.pos_firstSquare.x + (self.num_widthSquare + self.num_distanceSquare) * i, self.pos_firstSquare.y - (self.num_widthSquare + self.num_distanceSquare) * j)
+                end
 
-
-                if (j == 7 )then --debug line
+                if (j == 7) then --debug line
                     lg.setColor(1, 1, 1)
                     lg.rectangle("fill", W_WIDTH*0.8 -6, W_HEIGHT*0.9 - j*25 -6, 250, 5)
                 end
 
-                if (self.Cards[i][j]) then
+                if (self.Cards[i][j]) then --debug cards
+
+                    self.Cards[i][j]:draw(self.pos_firstSquare.x + (self.num_widthSquare + self.num_distanceSquare) * i, self.pos_firstSquare.y - (self.num_widthSquare + self.num_distanceSquare) * j, 20)
 
                     lg.setColor(1, 1, 1)
                     lg.print(self.Cards[i][j].cost, W_WIDTH*0.8 + i*25, W_HEIGHT*0.9 - j*25, 0, 1)
@@ -388,7 +404,7 @@ function Field:draw()
     for i, row in pairs(self.Cards) do
         for j, card in pairs(row) do
 
-            card:draw(100 * i, 700 - 100 * j, 20)
+            --card:draw(self.pos_firstSquare.x + 100 * i, self.pos_firstSquare.y - 100 * j, 20)
             -- lg.print(self.Cards[i][j].arr_grid.x .. " " .. self.Cards[i][j].arr_grid.y, 100 * i, 700 - 100 * j, 0, 1)
 
         end
