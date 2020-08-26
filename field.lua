@@ -155,8 +155,15 @@ function Field:new(o)
     })
 
 
-    --adding the player
-    o:addCard(Creature:new({switchTurn = function(self) end, health = 10, cost = "YOU"}),o.player.x, o.player.y)
+    -- adding the player
+    o:addCard(Creature:new({switchTurn = function(self) end,
+        takeDamage = function(self, int_damage) 
+            Game.int_health = Game.int_health - int_damage
+            return Game.int_health 
+        end
+    }),
+        o.player)
+
 
     
 
@@ -290,6 +297,8 @@ function Field:addCard(card, channel, row) --channel can be pos_
 
     --print("__start Field:addCard()")
 
+
+
     if (type(channel) == "table") then
         row = channel.y
         channel = channel.x
@@ -301,7 +310,6 @@ function Field:addCard(card, channel, row) --channel can be pos_
         --print("__end Field:addCard()")
         return false
     end
-    
 
     self.nrOfCards[channel] = self.nrOfCards[channel] + 1
     local row = row or self.nrOfCards[channel]

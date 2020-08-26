@@ -25,26 +25,32 @@ function Game:new(o)
 
     o.playerID = 1
 
-    -- o.frame = 0
+    o.int_maxHealth = 10
 
-    --o.mySquare = lg.newImage("square.png")
+    o.int_health = o.int_maxHealth
+
+    o.mySquare = lg.newImage("GameToken_16_2.png")
 
     return o
 end
 
 function Game:update(dt)
 
-    --self.MenuHandler:update(self, dt)
     self.ZoneHandler:update(self, dt)
-    -- self.frame = self.frame + 1
     
 end
 
 function Game:draw()
 
     self.ZoneHandler:draw()
-    -- lg.setColor(1,1,1,255)
-    -- lg.draw(self.mySquare, 50, 50)
+    lg.setColor(1,0,0,255)
+    for i = 1, self.int_maxHealth do
+
+        if (i > self.int_health) then
+            lg.setColor(0.5,0.5,0.5,255)
+        end
+        lg.draw(self.mySquare, 100, 700 - 50 * i, 0, 0.1)
+    end
     --self.MenuHandler:draw()
 
 end

@@ -12,9 +12,10 @@ function Creature:new(o)
     o.health = o.health or 1
     o.power = o.power or -1
     o.health = o.health or 2
-    --collection of positions related to this creature (1-9)
-    --this creature is nr 5
-    --o.support = o.support or {}
+
+    o.img_img = o.img_img or lg.newImage("full_04.png")
+    o.img_img:setFilter("nearest","nearest")
+    o.img_first = lg.newQuad(0,0,16,16, o.img_img:getDimensions())
 
     return o
 end
@@ -23,14 +24,10 @@ end
 function Creature:switchTurn(field)
     if (self.health <= 0) then
         field:removeCard(self.arr_grid.x, self.arr_grid.y)
-    end
-    
-    if (self.arr_grid.y > 7) then
+    elseif (self.arr_grid.y > 7) then
         field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
-    else
-        if (self.specialSwitch()) then
-            self:ai(field)
-        end
+    elseif (self.specialSwitch()) then
+        self:ai(field)
     end
     self.boo_hasSwitched = true
 end
@@ -51,14 +48,17 @@ end
 function Creature:draw(x, y, w, h)
 
     --h = h or w * 3.5
-    h = w * 3.5
+    --h = w * 3.5
 
-    lg.setColor(1, 0, 0)
-    lg.rectangle("fill", x, y, w * 2.5, h)
-    lg.setColor(0, 0, 0)
-    --lg.setColor(255, 255, 255)
+    --lg.setColor(1, 0, 0)
+    --lg.rectangle("fill", x, y, w * 2.5, h)
+    
+    
+    lg.setColor(1, 1 ,1)
+    lg.draw(self.img_img, self.img_first, x, y, 0, 5)
 
-    lg.print("C:" .. self.cost .. "\nHP:" .. self.health .. "\nP:" .. self.power, x +10, y + 10, 0, 1)
+    --lg.setColor(0, 0, 0)
+    --lg.print("C:" .. self.cost .. "\nHP:" .. self.health .. "\nP:" .. self.power, x +10, y + 10, 0, 1)
 
 
 end

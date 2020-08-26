@@ -75,7 +75,7 @@ function ZoneHandler:new(o)
         --o.Zone_Fields[1]:disableButtons(self.choises)
         --o.Zone_Hands[1].selectedCard = 0
         if (field.Cards[self.fieldChannel][self.fieldRow]) then
-            field.Cards[self.fieldChannel][self.fieldRow].health = field.Cards[self.fieldChannel][self.fieldRow].health -1
+            field.Cards[self.fieldChannel][self.fieldRow]:takeDamage(1)
 
             o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
         else
@@ -107,7 +107,8 @@ function ZoneHandler:new(o)
         --o.Zone_Fields[1]:disableButtons(self.choises)
        -- o.Zone_Hands[1].selectedCard = 0
         if (field.Cards[self.fieldChannel][self.fieldRow]) then
-            field.Cards[self.fieldChannel][self.fieldRow].health = field.Cards[self.fieldChannel][self.fieldRow].health -1
+            field.Cards[self.fieldChannel][self.fieldRow]:takeDamage(1)
+
             o.Zone_Hands[1].Cards[self.int_callback]:postExecute(o)
         else
             print("invalid target")
