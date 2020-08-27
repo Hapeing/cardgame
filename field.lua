@@ -413,7 +413,6 @@ function Field:removeCard(channel, row)--returns card
 end
 
 function Field:draw()
-    -- print("#####")
 
 
     for i=1, self.nrOfChannels do
@@ -428,20 +427,18 @@ function Field:draw()
                     lg.draw(self.img_square, self.pos_firstSquare.x + (self.num_widthSquare + self.num_distanceSquare) * i, self.pos_firstSquare.y - (self.num_widthSquare + self.num_distanceSquare) * j)
                 end
 
-                if (j == 7) then --debug line
-                    lg.setColor(1, 1, 1)
-                    lg.rectangle("fill", W_WIDTH*0.8 -6, W_HEIGHT*0.9 - j*25 -6, 250, 5)
-                end
+                -- if (j == 7) then --debug line
+                --     lg.setColor(1, 1, 1)
+                --     lg.rectangle("fill", W_WIDTH*0.8 -6, W_HEIGHT*0.9 - j*25 -6, 250, 5)
+                -- end
 
-                if (self.Cards[i][j]) then --debug cards
+                if (self.Cards[i][j]) then
 
-                    -- print(i)
-                    -- print(j)
-                    -- print("-----")
+
                     self.Cards[i][j]:draw(self.pos_firstSquare.x + (self.num_widthSquare + self.num_distanceSquare) * i, self.pos_firstSquare.y - (self.num_widthSquare + self.num_distanceSquare) * j, 20)
 
-                    lg.setColor(1, 1, 1)
-                    lg.print(self.Cards[i][j].cost, W_WIDTH*0.8 + i*25, W_HEIGHT*0.9 - j*25, 0, 1)
+                    --lg.setColor(1, 1, 1)
+                    --lg.print(self.Cards[i][j].cost, W_WIDTH*0.8 + i*25, W_HEIGHT*0.9 - j*25, 0, 1)
 
 
                 end
@@ -451,14 +448,14 @@ function Field:draw()
 
     self:drawButtons(0.05)
 
-    for i, row in pairs(self.Cards) do
-        for j, card in pairs(row) do
+    -- for i, row in pairs(self.Cards) do
+    --     for j, card in pairs(row) do
 
-            --card:draw(self.pos_firstSquare.x + 100 * i, self.pos_firstSquare.y - 100 * j, 20)
-            -- lg.print(self.Cards[i][j].arr_grid.x .. " " .. self.Cards[i][j].arr_grid.y, 100 * i, 700 - 100 * j, 0, 1)
+    --         --card:draw(self.pos_firstSquare.x + 100 * i, self.pos_firstSquare.y - 100 * j, 20)
+    --         -- lg.print(self.Cards[i][j].arr_grid.x .. " " .. self.Cards[i][j].arr_grid.y, 100 * i, 700 - 100 * j, 0, 1)
 
-        end
-    end
+    --     end
+    -- end
 
     lg.setColor(1, 1, 1)
     if (Game.win == true) then
