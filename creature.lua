@@ -29,7 +29,7 @@ function Creature:switchTurn(field)
         field:removeCard(self.arr_grid.x, self.arr_grid.y)
     elseif (self.arr_grid.y > 7) then
         field:addCard(field:removeCard(self.arr_grid.x, self.arr_grid.y), self.arr_grid.x, self.arr_grid.y - 1)
-    elseif (self.specialSwitch()) then
+    elseif (self:specialSwitch()) then
         self:ai(field)
     end
     self.boo_hasSwitched = true

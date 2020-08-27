@@ -409,7 +409,7 @@ function Field:removeCard(channel, row)--returns card
 end
 
 function Field:draw()
-
+    -- print("#####")
 
 
     for i=1, self.nrOfChannels do
@@ -431,6 +431,9 @@ function Field:draw()
 
                 if (self.Cards[i][j]) then --debug cards
 
+                    -- print(i)
+                    -- print(j)
+                    -- print("-----")
                     self.Cards[i][j]:draw(self.pos_firstSquare.x + (self.num_widthSquare + self.num_distanceSquare) * i, self.pos_firstSquare.y - (self.num_widthSquare + self.num_distanceSquare) * j, 20)
 
                     lg.setColor(1, 1, 1)

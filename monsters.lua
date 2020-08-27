@@ -13,6 +13,16 @@ function Monsters:getPawn(field)
             else
                 field:move(self.arr_grid, {self.arr_grid.x, self.arr_grid.y - 1})
             end
+        end,
+        specialSwitch = function(self)
+            if(self.arr_grid.y == 1) then
+                print(self.arr_grid.x)
+                print(self.arr_grid.y)
+                field:removeCard(self.arr_grid.x, self.arr_grid.y)
+                field:addCard(Creature:new(Monsters:getBishop(field)), self.arr_grid.x, self.arr_grid.y)
+                return false
+            end
+            return true
         end}
 
     return pawn
