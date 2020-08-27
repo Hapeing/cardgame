@@ -123,6 +123,7 @@ function Field:new(o)
 
 
     o:addButton({x= W_WIDTH * 0.2, y=W_HEIGHT * 0.75,
+        boo_safe = true,
         hight=128, width=128,
         released = function(self)
             for i = 1, o.nrOfChannels do
@@ -301,10 +302,13 @@ end
 function Field:disableButtons(button_arr)
     if (button_arr == "all") then
         for i, btn in pairs(self.Buttons) do
-            btn.use = nil
+            if (btn.boo_safe ~= true) then
+                btn.use = nil
 
-            btn.active = false
-            btn.visable = false
+                btn.active = false
+                btn.visable = false
+            end
+            
         end
     else
         for i, btn in pairs(button_arr) do

@@ -129,7 +129,7 @@ function Button:draw(scale)
 
         lg.setColor(self.r, self.g, self.b)
 
-        lg.rectangle("fill", self.x, self.y, self.width * scale, self.hight * scale)
+        --lg.rectangle("fill", self.x, self.y, self.width * scale, self.hight * scale)
         lg.draw(self.img_current, self.x, self.y, self.num_rotation, self.arr_imgScale.x, self.arr_imgScale.y)
     end
 end

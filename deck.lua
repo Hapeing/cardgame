@@ -41,11 +41,11 @@ end
 function Deck:draw()
 
 
-    if (table.getn(self.Cards) > 0) then
+    -- if (table.getn(self.Cards) > 0) then
 
-        --lg.setColor(self.color.r, self.color.g, self.color.b)
-        --lg.rectangle("fill", self.x, self.y, self.width, self.hight)
-        self:drawButtons()
-    end
+    --     --lg.setColor(self.color.r, self.color.g, self.color.b)
+    --     --lg.rectangle("fill", self.x, self.y, self.width, self.hight)
+    --     self:drawButtons()
+    -- end
 
 end

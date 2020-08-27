@@ -190,7 +190,7 @@ function ZoneHandler:new(o)
             field:disableButtons(self.choises, false)
             field.selectedCard = 0
         else
-            print("invalid target, cheater")
+            field:disableButtons("all")
         end
 
     end
