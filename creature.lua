@@ -16,6 +16,7 @@ function Creature:new(o)
     o.img_img = o.img_img or lg.newImage("full_04.png")
     o.img_img:setFilter("nearest","nearest")
     o.img_first = lg.newQuad(0,0,16,16, o.img_img:getDimensions())
+    o.img_heart = o.img_heart or lg.newImage("GameToken_16_2.png")
 
     o.num_scale = 5
 
@@ -67,6 +68,11 @@ function Creature:draw(x, y, w, h)
         lg.setColor(0, 0 ,0)
     end
     lg.draw(self.img_img, self.img_first, x, y, 0, self.num_scale)
+    
+    lg.setColor(1, 0 ,0)
+    for i = 1, self.health do
+        lg.draw(self.img_heart, x + i*30, y + 45, 0, 0.05)
+    end
 
     --lg.setColor(0, 0, 0)
     --lg.print("C:" .. self.cost .. "\nHP:" .. self.health .. "\nP:" .. self.power, x +10, y + 10, 0, 1)

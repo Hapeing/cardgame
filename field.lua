@@ -122,7 +122,7 @@ function Field:new(o)
 
 
 
-    o:addButton({x= W_WIDTH * 0.01, y=W_HEIGHT * 0.75,
+    o:addButton({x= W_WIDTH * 0.2, y=W_HEIGHT * 0.75,
         hight=128, width=128,
         released = function(self)
             for i = 1, o.nrOfChannels do
@@ -130,6 +130,7 @@ function Field:new(o)
                     if (o.Cards[i][j]) then
                         if (o.Cards[i][j].boo_hasSwitched == false) then
                             o.Cards[i][j]:switchTurn(o)
+                            
                         end
                     end
                 end
@@ -151,6 +152,21 @@ function Field:new(o)
             self.r = self.r_org
             self.g = self.g_org
             self.b = self.b_org
+            
+            local boo_winCheck = true
+            for i, nr in pairs(o.nrOfCards) do
+                if (nr > 1) then
+                    boo_winCheck = false
+                end
+            end
+
+            if (boo_winCheck == true) then
+                Game.win = true
+                o:disableButtons("all")
+            elseif (Game.int_health < 1) then
+                o:disableButtons("all")
+            end
+
         end
     })
 
@@ -160,7 +176,8 @@ function Field:new(o)
         takeDamage = function(self, int_damage) 
             Game.int_health = Game.int_health - int_damage
             return Game.int_health 
-        end
+        end,
+        health = 0
     }),
         o.player)
 
@@ -237,49 +254,67 @@ end
 
 function Field:enableButtons(button_arr, fieldUse, img_new)--img_new is optional
     local arr_result = {}
-    for i, btn in pairs(button_arr) do
-        local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
-        if (int_btnIndex) then
-            
-            if(img_new ~= nil) then
-                self.Buttons[int_btnIndex]:changeImgString(img_new)
+    if (button_arr == "all")then
+        for i, btn in pairs(self.Buttons) do
+                btn.use = fieldUse
+                btn.active = true
+                btn.visable = true
+                btn.choises = self.Buttons
+        end
+    else
+        for i, btn in pairs(button_arr) do
+            local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
+            if (int_btnIndex) then
 
-                -- if (self.Cards[self.player.x + btn.x][self.player.y + btn.y] ~= nil) then
-                    
-                --     if (img_new == "atk") then
-                --         self.Buttons[int_btnIndex].r_org = self.Buttons[int_btnIndex].r_hov
-                --         self.Buttons[int_btnIndex].g_org = self.Buttons[int_btnIndex].g_hov
-                --         self.Buttons[int_btnIndex].b_org = self.Buttons[int_btnIndex].b_hov
-                --     end
-                -- else
-                --     if (img_new == "mov") then
-                --         self.Buttons[int_btnIndex].r_org = self.Buttons[int_btnIndex].r_hov
-                --         self.Buttons[int_btnIndex].g_org = self.Buttons[int_btnIndex].g_hov
-                --         self.Buttons[int_btnIndex].b_org = self.Buttons[int_btnIndex].b_hov
-                --     end
-                -- end
-                
+                if(img_new ~= nil) then
+                    self.Buttons[int_btnIndex]:changeImgString(img_new)
+
+                    -- if (self.Cards[self.player.x + btn.x][self.player.y + btn.y] ~= nil) then
+
+                    --     if (img_new == "atk") then
+                    --         self.Buttons[int_btnIndex].r_org = self.Buttons[int_btnIndex].r_hov
+                    --         self.Buttons[int_btnIndex].g_org = self.Buttons[int_btnIndex].g_hov
+                    --         self.Buttons[int_btnIndex].b_org = self.Buttons[int_btnIndex].b_hov
+                    --     end
+                    -- else
+                    --     if (img_new == "mov") then
+                    --         self.Buttons[int_btnIndex].r_org = self.Buttons[int_btnIndex].r_hov
+                    --         self.Buttons[int_btnIndex].g_org = self.Buttons[int_btnIndex].g_hov
+                    --         self.Buttons[int_btnIndex].b_org = self.Buttons[int_btnIndex].b_hov
+                    --     end
+                    -- end
+
+                end
+                self.Buttons[int_btnIndex].use = fieldUse
+
+                self.Buttons[int_btnIndex].active = true
+                self.Buttons[int_btnIndex].visable = true
+                self.Buttons[int_btnIndex].choises = button_arr
+
+                arr_result[int_btnIndex] = self.Buttons[int_btnIndex]
             end
-            self.Buttons[int_btnIndex].use = fieldUse
-
-            self.Buttons[int_btnIndex].active = true
-            self.Buttons[int_btnIndex].visable = true
-            self.Buttons[int_btnIndex].choises = button_arr
-
-            arr_result[int_btnIndex] = self.Buttons[int_btnIndex]
         end
     end
     return arr_result
 end
 
 function Field:disableButtons(button_arr)
-    for i, btn in pairs(button_arr) do
-        local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
-        if (int_btnIndex) then
-            self.Buttons[int_btnIndex].use = nil
+    if (button_arr == "all") then
+        for i, btn in pairs(self.Buttons) do
+            btn.use = nil
 
-            self.Buttons[int_btnIndex].active = false
-            self.Buttons[int_btnIndex].visable = false
+            btn.active = false
+            btn.visable = false
+        end
+    else
+        for i, btn in pairs(button_arr) do
+            local int_btnIndex = self:getButtonIndex(self.player.x + btn.x, self.player.y + btn.y)
+            if (int_btnIndex) then
+                self.Buttons[int_btnIndex].use = nil
+
+                self.Buttons[int_btnIndex].active = false
+                self.Buttons[int_btnIndex].visable = false
+            end
         end
     end
 end
@@ -416,6 +451,13 @@ function Field:draw()
             -- lg.print(self.Cards[i][j].arr_grid.x .. " " .. self.Cards[i][j].arr_grid.y, 100 * i, 700 - 100 * j, 0, 1)
 
         end
+    end
+
+    lg.setColor(1, 1, 1)
+    if (Game.win == true) then
+        lg.print("you win", W_WIDTH*0.4, W_HEIGHT*0.4, 0, 10)
+    elseif (Game.int_health < 1) then
+        lg.print("you lose", W_WIDTH*0.4, W_HEIGHT*0.4, 0, 10)
     end
 
 end

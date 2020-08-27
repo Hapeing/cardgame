@@ -23,6 +23,8 @@ function Game:new(o)
 
     o.mousePressed = false
 
+    o.win = false
+
     o.playerID = 1
 
     o.int_maxHealth = 10

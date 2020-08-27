@@ -31,6 +31,7 @@ function ZoneHandler:new(o)
 
     --1st ability ############################################################################################################################################################
     o.Zone_Decks[1].Cards[1].name = "Move"
+    o.Zone_Decks[1].Cards[1].cooldown = 1
     o.Zone_Decks[1].Cards[1].choises = {{x=-1, y=0},{x=1, y=0},{x=0, y=-1},{x=0, y=1}}
     o.Zone_Decks[1].Cards[1].preExecute = function(self)
         self.str_type = "mov"
@@ -58,6 +59,7 @@ function ZoneHandler:new(o)
 
     --2nd ability ############################################################################################################################################################
     o.Zone_Decks[1].Cards[2].name = "Stab"
+    o.Zone_Decks[1].Cards[2].cooldown = 1
     o.Zone_Decks[1].Cards[2].preExecute = function(self)
         self.str_type = "atk"
     end
@@ -146,6 +148,51 @@ function ZoneHandler:new(o)
         end
         --o.Zone_Hands[1].selectedCard = 0
         -- self.callback:postExecute(o)
+    end
+
+
+     --5th ability (cheat)############################################################################################################################################################
+    o.Zone_Decks[1].Cards[5].name = "cheat"
+    o.Zone_Decks[1].Cards[5].cooldown = 0
+    o.Zone_Decks[1].Cards[5].preExecute = function(self)
+        self.str_type = "atk"
+    end
+    o.Zone_Decks[1].Cards[5].choises = {{x=0, y=-2},{x=0, y=2}, {x=-2, y=0},{x=2, y=0}}
+    o.Zone_Decks[1].Cards[5].checkExecute = function(self, zHandler, int_index)
+
+        if (zHandler.Zone_Hands[1].selectedCard == int_index) then
+            print("Deactivate " .. int_index)
+            zHandler.Zone_Hands[1].selectedCard = 0
+            zHandler.Zone_Fields[1]:disableButtons(self.choises)
+            return false
+        elseif (zHandler.Zone_Hands[1].selectedCard ~= 0) then
+            print("Cant activate " .. int_index .. ". Because " .. zHandler.Zone_Hands[1].selectedCard .. " is active")
+            return false
+        elseif (self.cooling > 0) then
+            print("Ability " .. int_index .. " on cooldown")
+        else
+            print("Activate " .. int_index)
+            zHandler.Zone_Hands[1].selectedCard = int_index
+            for i, btn in pairs(zHandler.Zone_Fields[1]:enableButtons("all", self.fieldUse, self.str_type)) do
+                btn.int_callback = self.power
+            end
+            return false
+        end
+        return true
+    end
+    o.Zone_Decks[1].Cards[5].fieldUse = function(self)--this function is to be set in a fieldButton
+        local field = o.Zone_Fields[1]
+         
+ 
+ 
+        if (field.Cards[self.fieldChannel][self.fieldRow]) then
+            field.Cards[self.fieldChannel][self.fieldRow]:takeDamage(1)
+            field:disableButtons(self.choises, false)
+            field.selectedCard = 0
+        else
+            print("invalid target, cheater")
+        end
+
     end
 
 
