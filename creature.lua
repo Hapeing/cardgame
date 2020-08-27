@@ -15,10 +15,10 @@ function Creature:new(o)
 
     o.img_img = o.img_img or lg.newImage("full_04.png")
     o.img_img:setFilter("nearest","nearest")
-    o.img_first = lg.newQuad(0,0,16,16, o.img_img:getDimensions())
+    o.img_first = o.img_first or lg.newQuad(0,0,16,16, o.img_img:getDimensions())
     o.img_heart = o.img_heart or lg.newImage("GameToken_16_2.png")
 
-    o.num_scale = 5
+    o.num_scale = o.num_scale or 5
 
     return o
 end
